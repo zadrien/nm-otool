@@ -42,19 +42,19 @@ void	handle_64(void *ptr, int flags) {
   i = 0;
   header = (struct mach_header_64*)ptr;
   ncmds = header->ncmds;
-  printf("ncmds: %u\n", header->ncmds);
+  //  printf("ncmds: %u\n", header->ncmds);
   
   lc = (void *)ptr + sizeof(struct mach_header_64);
   while (i++ < ncmds) {
     if (lc->cmd == LC_SYMTAB) {
-      printf("lc_symtab\n");
+      //  printf("lc_symtab\n");
       //      struct symtab_command *symtab = (struct symtab_command*)lc;
 
       //      printf("%u\n", symtab->nsyms);
       symtab(ptr, lc);
       break ;
     } else if (lc->cmd == LC_SEGMENT_64) {
-      printf("lc_segment_64\n");
+      //printf("lc_segment_64\n");
     }
     lc = (void*)lc + lc->cmdsize;
   }
@@ -76,14 +76,8 @@ int	nm(void *ptr, int flags) {
 
   mn = *(unsigned int*)ptr;
 
-  if (mn == MH_MAGIC_64) {
-    printf("should NOT reverse\n");
-  }
-  if (mn == MH_CIGAM_64) {
-    printf("should reverse\n");
-  }
   if (mn == MH_CIGAM_64 || mn == MH_MAGIC_64) {
-    printf("64-bits architecture\n");
+    //    printf("64-bits architecture\n");
     
     handle_64(ptr, flags);
   } else if (mn == MH_CIGAM || mn == MH_MAGIC) {

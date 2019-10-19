@@ -33,7 +33,7 @@ all: $(SNAME) $(CNAME)
 
 $(SNAME): $(SOBJ)
 	make -C libft
-	$(CC) $(CFLAGS) -ltermcap $(SOBJ) libft/libft.a -o $(SNAME)
+	$(CC) $(CFLAGS) $(SOBJ) libft/libft.a -o $(SNAME)
 
 $(OPATH)%.o: $(CPATH)%.c $(HFILES)
 	@mkdir -p $(OPATH)

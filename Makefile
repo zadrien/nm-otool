@@ -20,6 +20,7 @@ OPATH= obj/
 HPATH= includes/ libft/includes/
 INC= $(addprefix -I , $(HPATH))
 SFILES= main.c nm.c \
+	/commands/symtab.c \
 
 OSFILES= $(SFILES:.c=.o)
 
@@ -36,7 +37,7 @@ $(SNAME): $(SOBJ)
 
 $(OPATH)%.o: $(CPATH)%.c $(HFILES)
 	@mkdir -p $(OPATH)
-
+	@mkdir -p $(OPATH)/commands
 	$(CC) -g -Wall -Werror -Wextra  $(INC) $< -c -o $@
 
 clean:

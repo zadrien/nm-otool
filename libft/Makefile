@@ -41,8 +41,6 @@ SRC =	ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
 		ft_putendn.c count_tab.c find_node.c	\
 		parser.c free_token.c new_env.c add_env.c\
 		ft_countarg.c ft_strndup.c ft_freetab.c print_msg.c \
-		cmd_line/init.c cmd_line/misc_init.c cmd_line/arrow.c cmd_line/utils_arrow.c cmd_line/misc_arrow.c \
-		cmd_line/ui.c \
 
 OBJS = $(SRC:.c=.o)
 
@@ -54,7 +52,6 @@ all: $(NAME)
 
 $(OPATH)%.o: $(CPATH)%.c $(HFILES)
 	@mkdir -p $(OPATH)
-	@mkdir -p $(OPATH)cmd_line/
 
 	gcc -c -o $@ $< $(FLAG) $(INC)
 

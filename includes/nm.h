@@ -26,4 +26,6 @@
 
 # include "libft.h"
 
+
+int	nm(void *ptr, int flags);
 #endif

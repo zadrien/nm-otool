@@ -19,7 +19,7 @@ CPATH= srcs/
 OPATH= obj/
 HPATH= includes/ libft/includes/
 INC= $(addprefix -I , $(HPATH))
-SFILES= main.c \
+SFILES= main.c nm.c \
 
 OSFILES= $(SFILES:.c=.o)
 

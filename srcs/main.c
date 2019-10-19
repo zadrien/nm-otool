@@ -44,6 +44,7 @@ int     main(int ac, char **av)
     return 0;
   }
 
+  nm(ptr, -1);
   if (munmap(ptr, buf.st_size) < 0) {
     printf("munmap error\n");
     return 0;

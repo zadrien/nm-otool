@@ -12,7 +12,7 @@
 
 NAME = libft.a
 
-FLAG = -Wall -Wextra -Werror -ltermcap
+FLAG = -Wall -Wextra -Werror
 CPATH= srcs/
 OPATH= obj/
 HPATH= includes/

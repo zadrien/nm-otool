@@ -10,6 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifdef __APPLE__
+	# include <mach-o/loader.h>
+	# include <mach-o/nlist.h>
+#endif
+
 #ifndef NM_H
 # define NM_H
 
@@ -18,8 +23,6 @@
 # include <sys/mman.h>
 # include <sys/stat.h>
 # include <fcntl.h>
-# include <mach-o/loader.h>
-# include <mach-o/nlist.h>
 
 # include "libft.h"
 

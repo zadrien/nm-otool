@@ -1,14 +1,14 @@
-# **************************************************************************** #
+#******************************************************************************#
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2018/11/05 10:38:00 by zadrien          ###   ########.fr        #
+#    Created: 2019/10/20 10:05:51 by zadrien           #+#    #+#              #
+#    Updated: 2019/10/24 23:04:42 by zadrien          ###   ########.fr        #
 #                                                                              #
-# **************************************************************************** #
+#******************************************************************************#
 
 .PHONY: all clean fclean name re
 
@@ -19,8 +19,8 @@ CPATH= srcs/
 OPATH= obj/
 HPATH= includes/ libft/includes/
 INC= $(addprefix -I , $(HPATH))
-SFILES= main.c nm.c \
-	/commands/symtab.c \
+SFILES= main.c nm.c options.c\
+	/commands/symtab.c  commands/stabs.c\
 
 OSFILES= $(SFILES:.c=.o)
 

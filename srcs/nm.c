@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/05 10:38:09 by zadrien           #+#    #+#             */
-/*   Updated: 2018/11/05 10:58:09 by zadrien          ###   ########.fr       */
+/*   Created: 2019/10/20 09:59:33 by zadrien           #+#    #+#             */
+/*   Updated: 2019/10/20 11:02:40 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	handle_64(void *ptr, int flags) {
       //      struct symtab_command *symtab = (struct symtab_command*)lc;
 
       //      printf("%u\n", symtab->nsyms);
-      symtab(ptr, lc);
+		symtab(ptr, lc, flags);
       break ;
     } else if (lc->cmd == LC_SEGMENT_64) {
       //printf("lc_segment_64\n");

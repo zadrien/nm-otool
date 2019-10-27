@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/20 10:05:51 by zadrien           #+#    #+#              #
-#    Updated: 2019/10/24 23:04:42 by zadrien          ###   ########.fr        #
+#    Updated: 2019/10/25 19:43:01 by zadrien          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -20,7 +20,7 @@ OPATH= obj/
 HPATH= includes/ libft/includes/
 INC= $(addprefix -I , $(HPATH))
 SFILES= main.c nm.c options.c\
-	/commands/symtab.c  commands/stabs.c\
+	/commands/symtab.c  commands/stabs.c commands/handler.c \
 
 OSFILES= $(SFILES:.c=.o)
 

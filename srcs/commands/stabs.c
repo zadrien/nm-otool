@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 20:05:05 by zadrien           #+#    #+#             */
-/*   Updated: 2019/10/25 20:23:16 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/10/28 13:12:09 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,8 @@ char	*ft_type(unsigned int value) {
 
 	i = 0;
 	while (i++ < 29) {
-		if (!(value ^ type[i].type)) {
+		if (!(value ^ type[i].type))
 			return type[i].str;
-		}
 	}
 	return NULL;
 }

@@ -6,110 +6,73 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/05 10:38:09 by zadrien           #+#    #+#             */
-/*   Updated: 2019/10/27 11:58:51 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/11/10 17:04:46 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
 
-void byteValue(unsigned int v, int mask) {
-	unsigned char bytes[4];
-
-	bytes[0] = (v >> 24) & mask;
-	bytes[1] = (v >> 16) & mask;
-	bytes[2] = (v >> 8) & mask;
-	bytes[3] = v  & mask;
-
-	printf("%x%x%x ", (unsigned char)bytes[1], (unsigned char)bytes[2], (unsigned char)bytes[3]);
-}
-
-
-void	symtab_64(void *ptr, void *sc, int flags) {
+void	symtab_64(void *ptr, void *lc, t_lst *sects, int flags) {
 	unsigned int			i;
-	char					*strtable;
-	struct symtab_command	*table;
-	struct nlist_64			*nl;
-	t_symbol				*s;
-	t_symbol				*new;
-
+	char					*name;
+	struct symtab_command	*symtab;
+	struct nlist_64			*symbol;
+	t_symbol					*lst;
+	t_symbol					*el;
 	
-	i = 0;
-	s = NULL;
-	table = (struct symtab_command*)sc;
-	nl = (void*)ptr + table->symoff;
-	strtable = (void*)ptr + table->stroff;
-	while (i < table->nsyms) {
-		new = NULL;
-		if ((nl[i].n_type & N_STAB) && (flags & A)) {
-				new = newStruct();
-				new->stype = '-';
-				new->symbol = ft_type(nl[i].n_type);
-		} else if (!(nl[i].n_type & N_STAB)) {
-			if (!(nl[i].n_sect == NO_SECT && flags & U)) {
-				if (!(flags & u)) {
-					new = newStruct();
-					new->stype = symbol_type(nl[i].n_type, nl[i].n_sect);
-				}
-			}
+	i = -1;
+	lst = NULL;
+	symtab = (struct symtab_command*)lc;
+	symbol = ptr + symtab->symoff;
+	name = ptr + symtab->stroff;
+	while (++i < symtab->nsyms) {
+		if (N_STAB & symbol[i].n_type) {
+			if (!(flags & A))
+				continue ;
+		} else if ((N_TYPE & symbol[i].n_type) == N_UNDF) {
+			if (flags & U)
+				continue;
+		} else if ((N_TYPE & symbol[i].n_type) == N_SECT) {
+			if (flags & u)
+				continue;
 		}
-
-		if (new != NULL) {
-			new->value = nl[i].n_value;
-			new->n_type = nl[i].n_type;
-			ft_strncpy(new->sect, ft_hex(nl[i].n_sect) + 14, 2); // OPT
-			ft_strncpy(new->desc, ft_hex(nl[i].n_desc) + 12, 4); // OPT
-			new->name = ft_strdup(strtable + nl[i].n_un.n_strx);
-			
-			add(&s, &new, cmpName);
-		}
-		i++;
+		if (!(el = newSymbol64(symbol[i], sects, name)))
+			return ;
+		newElem(&lst, el, flags);
 	}
-
-	print(s);
-	return ;
+	printSymbols(lst, flags);
+	freeSymbol(&lst);
 }
 
-void	symtab_32(void *ptr, void *sc, int flags) {
+void	symtab(void *ptr, void *lc, t_lst *sects, int flags) {
 	unsigned int			i;
-	char					*strtable;
-	struct symtab_command	*table;
-	struct nlist			*nl;
-	t_symbol				*s;
-	t_symbol				*new;
-
+	char					*name;
+	struct symtab_command	*symtab;
+	struct nlist			*symbol;
+	t_symbol				*lst;
+	t_symbol				*el;
 	
-	i = 0;
-	s = NULL;
-	table = (struct symtab_command*)sc;
-	nl = (void*)ptr + table->symoff;
-	strtable = (void*)ptr + table->stroff;
-	while (i < table->nsyms) {
-		new = NULL;
-		if ((nl[i].n_type & N_STAB) && (flags & A)) {
-				new = newStruct();
-				new->stype = '-';
-				new->symbol = ft_type(nl[i].n_type);
-		} else if (!(nl[i].n_type & N_STAB)) {
-			if (!(nl[i].n_sect == NO_SECT && flags & U)) {
-				if (!(flags & u)) {
-					new = newStruct();
-					new->stype = symbol_type(nl[i].n_type, nl[i].n_sect);
-				}
-			}
+	i = -1;
+	lst = NULL;
+	symtab = (struct symtab_command*)lc;
+	symbol = ptr + symtab->symoff;
+	name = ptr + symtab->stroff;
+	while (++i < symtab->nsyms) {
+		if (N_STAB & symbol[i].n_type) {
+			if (!(flags & A))
+				continue ;
+		} else if ((N_TYPE & symbol[i].n_type) == N_UNDF) {
+			if (flags & U)
+				continue;
+		} else if ((N_TYPE & symbol[i].n_type) == N_SECT) {
+			if (flags & u)
+				continue;
 		}
-
-		if (new != NULL) {
-			new->value = nl[i].n_value;
-			new->n_type = nl[i].n_type;
-			ft_strncpy(new->sect, ft_hex(nl[i].n_sect) + 14, 2); // OPT
-			ft_strncpy(new->desc, ft_hex(nl[i].n_desc) + 12, 4); // OPT
-			new->name = ft_strdup(strtable + nl[i].n_un.n_strx);
-			
-			add(&s, &new, cmpName);
-		}
-		i++;
+		if (!(el = newSymbol(symbol[i], sects, name)))
+			return ;
+		newElem(&lst, el, flags);
 	}
-
-	print(s);
-	return ;
+	printSymbols(lst, flags);
+	freeSymbol(&lst);
 }
+

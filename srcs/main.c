@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/05 10:38:09 by zadrien           #+#    #+#             */
-/*   Updated: 2019/10/27 12:22:01 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/11/10 12:58:47 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,14 @@ int start(char *file, int opt) {
 		return 0;
 	}
 
+//	(void)opt;
 	nm(ptr, opt);
   
 	if (munmap(ptr, buf.st_size) < 0) {
 		printf("munmap error\n");
 		return 0;
 	}
+	close(fd);
 	return 0;
 }
 int     main(int ac, char **av)

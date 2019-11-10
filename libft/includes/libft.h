@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 15:32:31 by zadrien           #+#    #+#             */
-/*   Updated: 2019/10/24 17:11:08 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/10/31 16:24:28 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void				free_token(t_token **token);
 int					ft_countarg(t_token **lst);
 char			    *ft_strndup(char *str, size_t len);
 void    ft_freetab(char **trash);
-char				*ft_hex(long int v);
+char				*ft_hex(long int v, size_t len);
 /**
  * COLORS
  */

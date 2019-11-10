@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 17:08:47 by zadrien           #+#    #+#             */
-/*   Updated: 2019/10/24 17:13:12 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/11/10 15:59:50 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,21 @@ int rec_itoh(char *str, long int nbr, int k) {
 	return 1;
 }
 
-char *ft_hex(long int v) {
+char *ft_hex(long int v, size_t len) {
 
 	int i;
 	char	*str;
+	char	*res;
 
-	if (!(str = (char*)malloc(sizeof(char)*16)))
+	if (!(str = (char*)malloc(sizeof(char) * 16 + 1)))
 		return NULL;
 	i = 16;
 	str[i--] = '\0';
 	if (!rec_itoh(str, v, i))
 		return NULL;
-	return str;
+
+	res = ft_strdup(str + (16 - len)); // watch out
+	free(str);
+	str = NULL;
+	return res;
 }

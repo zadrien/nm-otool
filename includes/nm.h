@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/05 10:38:21 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/10 17:33:04 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/11/10 17:42:31 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@
 int		nm(void *ptr, int flags);
 int		options(char **arg, unsigned int *opt);
 
+void	handle_64(void *ptr, int flags);
+void	handle_32(void *ptr, int flags);
+
 /*****************************/
 /*			SECTION			 */
 /*****************************/
@@ -64,6 +67,7 @@ typedef struct		s_sect {
 
 void	printSec(t_lst *lst);
 t_lst	*saveSect64(t_lst **lst, void *ptr);
+t_lst	*saveSect32(t_lst **lst, void *ptr);
 char	getLetter(unsigned int type, t_sect *section);
 void	*getSec(t_lst *lst, size_t nbr);
 void	freeSection(t_lst **lst);
@@ -72,19 +76,14 @@ void	freeSection(t_lst **lst);
 /* LOAD_COMMAND FUNCTION */
 /*************************/
 
-void	handle_64(void *ptr, int flags);
+/*****************************************/
+/*				SYMBOL TABLE			 */
+/*****************************************/
 
 void	symtab_64(void *ptr, void *lc, t_lst *sects, int flags);
 void	symtab_32(void *ptr, void *lc, t_lst *sects, int flags);
 char	*ft_type(unsigned int value); // description
 
-/*
-** NEW SYMBOL REP
-*/
-
-/*****************************/
-/*			SYMBOL			 */
-/*****************************/
 
 typedef struct		s_symbol {
 	unsigned int	n_type;

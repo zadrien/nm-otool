@@ -6,25 +6,11 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/20 09:59:33 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/10 16:29:05 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/11/10 17:41:02 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
-
-void	commands(void *ptr, int ncmds, int flags) {
-  (void)flags;
-  int			i;
-  struct load_command	*lc;
-
-  i = 0;
-  lc = (struct load_command*)ptr;
-  while (i < ncmds) {
-    
-    lc = (void*)ptr + lc->cmdsize;
-    i++;
-  }
-}
 
 void	handle_64(void *ptr, int flags) {
 
@@ -41,8 +27,6 @@ void	handle_64(void *ptr, int flags) {
 	lc = (void *)ptr + sizeof(struct mach_header_64);
 	while (i++ < ncmds) {
 		if (lc->cmd == LC_SYMTAB) {
-//			break ; // ATTENTION
-//			ft_putendl("symtab");
 			symtab_64(ptr, lc, lst, flags);
 		} else if (lc->cmd == LC_SEGMENT_64) {
 			saveSect64(&lst, (void*)lc);
@@ -67,25 +51,20 @@ void	handle_32(void *ptr, int flags) {
 	lc = (void *)ptr + sizeof(struct mach_header);
 	while (i++ < ncmds) {
 		if (lc->cmd == LC_SYMTAB) {
-			symtab_64(ptr, lc, lst, flags);
-
+			symtab_32(ptr, lc, lst, flags);
 		} else if (lc->cmd == LC_SEGMENT) {
-			//saveSect42
+			saveSect32(&lst, (void*)lc);
 		}
 		lc = (void*)lc + lc->cmdsize;
 	}
+	freeSection(&lst);
 }
-
-
-
-
 
 int	nm(void *ptr, int flags) {
   (void)flags;
   unsigned int mn;
 
   mn = *(unsigned int*)ptr;
-//  printf("%u\n", nm);
   if (mn == MH_CIGAM_64 || mn == MH_MAGIC_64) {
     handle_64(ptr, flags);
   } else if (mn == MH_CIGAM || mn == MH_MAGIC) {

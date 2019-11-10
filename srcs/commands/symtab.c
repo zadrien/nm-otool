@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/05 10:38:09 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/10 17:04:46 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/11/10 17:40:04 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	symtab_64(void *ptr, void *lc, t_lst *sects, int flags) {
 	freeSymbol(&lst);
 }
 
-void	symtab(void *ptr, void *lc, t_lst *sects, int flags) {
+void	symtab_32(void *ptr, void *lc, t_lst *sects, int flags) {
 	unsigned int			i;
 	char					*name;
 	struct symtab_command	*symtab;

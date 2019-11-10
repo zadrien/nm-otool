@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 11:46:03 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/10 17:10:04 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/11/10 17:43:04 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,28 +59,6 @@ void	*getSec(t_lst *lst, size_t nbr) {
 	}
 	return sect;
 }
-void	printSec(t_lst *lst) { // REMOVE
-	size_t			i;
-	t_sect			*tmp;
-
-	if (lst == NULL) {
-		ft_putendl("empty");
-		return ;
-	}
-	
-	i = 0;
-	printf("Nbr of section: %zu\n", lst->nbr);
-	tmp = (void*)lst->ptr;
-	while (i < lst->nbr) {
-		printf("======[Section]======\n");
-		printf("Segment: %s\n", tmp->segname);
-		printf("Section: %s\n", tmp->sectname);
-		tmp = (void*)tmp + sizeof(t_sect);
-
-		i++;
-	}
-	printf("======[END]======\n");
-}
 
 t_lst	*saveSect64(t_lst **lst, void *ptr) {
 	size_t						i;
@@ -118,7 +96,7 @@ t_lst	*saveSect64(t_lst **lst, void *ptr) {
 	return *lst;
 }
 
-t_lst	*saveSect(t_lst **lst, void *ptr) {
+t_lst	*saveSect32(t_lst **lst, void *ptr) {
 	size_t						i;
 	t_lst						*l;
 	t_sect						*tmp;

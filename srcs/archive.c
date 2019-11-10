@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/01 11:47:26 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/06 15:03:17 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/11/10 17:44:04 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,12 @@ int is_archive(void *ptr) {
 	return 0;
 }
 
-
-
 void	handle_archive(void *ptr, int flags)
 {
-	struct ar_hdr	*hdr;
-	(void)flags;
-//	struct mach_header_64 *mh;
-	void	*h;
+	void			*h;
 	char			dst[16];
+	struct ar_hdr	*hdr;
+	
 	hdr = (struct ar_hdr*)((void*)ptr + SARMAG);
 	while (42) {
 		hdr = (struct ar_hdr*)((void*)hdr + sizeof(struct ar_hdr) + ft_atoi(hdr->ar_size));

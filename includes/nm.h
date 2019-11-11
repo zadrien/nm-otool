@@ -6,27 +6,15 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/05 10:38:21 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/10 17:42:31 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/11/11 20:26:07 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#ifdef __APPLE__
-	# include <mach-o/loader.h>
-	# include <mach-o/nlist.h>
-	# include <mach-o/stab.h>
-#endif
 
 #ifndef NM_H
 # define NM_H
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <sys/mman.h>
-# include <sys/stat.h>
-# include <fcntl.h>
-# include <ar.h>
-# include "libft.h"
 
+# include "common.h"
 
 # define A (1 << 0) /*	all symbol entries flags		*/
 # define G (1 << 1) /*	only global (external) symbols	*/
@@ -34,22 +22,31 @@
 # define P (1 << 3) /*	display in symbol-table order	*/
 # define u (1 << 4) /*	display only undefined symbol	*/
 # define U (1 << 5) /*	dont display undefined symbol	*/
-//# define SWAP_UL(x) ((x & 0xff00ff00ff00ff00ull) >> 8ull) | (( x & 0x00ff00ff00ff00ffull) <<8ull)
-
-
-
-# define Swap8Bytes(val)  ( (((val) >> 56) & 0x00000000000000FF) | (((val) >> 40) & 0x000000000000FF00) | (((val) >> 24) & 0x0000000000FF0000) | (((val) >>  8) & 0x00000000FF000000) | (((val) <<  8) & 0x000000FF00000000) | (((val) << 24) & 0x0000FF0000000000) |(((val) << 40) & 0x00FF000000000000) | (((val) << 56) & 0xFF00000000000000) )
 
 # define STR_EXT "external"
 # define STR_N_EXT "non-external"
 # define STR_LIBSYS " (from libSystem)"
 # define SECT_CONST "__const"
 
+
+
 int		nm(void *ptr, int flags);
 int		options(char **arg, unsigned int *opt);
 
-void	handle_64(void *ptr, int flags);
+/* typedef struct		s_flags { */
+/* 	char	c; */
+/* 	unsigned int	b; */
+/* }					t_flags; */
+
+/* int		is_32(void *ptr); */
+/* int		is_64(void *ptr); */
+/* int		is_fat(void *ptr); */
+/* int		is_archive(void *ptr); */
+
 void	handle_32(void *ptr, int flags);
+void	handle_64(void *ptr, int flags);
+void	handle_fat(void *ptr, int flags);
+
 
 /*****************************/
 /*			SECTION			 */
@@ -72,10 +69,6 @@ char	getLetter(unsigned int type, t_sect *section);
 void	*getSec(t_lst *lst, size_t nbr);
 void	freeSection(t_lst **lst);
 
-/*************************/
-/* LOAD_COMMAND FUNCTION */
-/*************************/
-
 /*****************************************/
 /*				SYMBOL TABLE			 */
 /*****************************************/
@@ -83,7 +76,6 @@ void	freeSection(t_lst **lst);
 void	symtab_64(void *ptr, void *lc, t_lst *sects, int flags);
 void	symtab_32(void *ptr, void *lc, t_lst *sects, int flags);
 char	*ft_type(unsigned int value); // description
-
 
 typedef struct		s_symbol {
 	unsigned int	n_type;
@@ -121,6 +113,5 @@ void		freeSymbol(t_symbol **lst);
 /*	  ARCHIVE FUNCTION	 */
 /*************************/
 
-int		is_archive(void *ptr);
 void	handle_archive(void *ptr, int flags);
 #endif

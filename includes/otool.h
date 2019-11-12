@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 17:28:49 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/11 19:49:04 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/11/12 12:29:05 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,4 +19,6 @@
 
 int		otool(char *File, int flags);
 
+
+void	parseSection_64(void *ptr, void *segment, int flags);
 #endif

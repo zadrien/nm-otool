@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/11 16:22:07 by zadrien           #+#    #+#              #
-#    Updated: 2019/11/11 20:25:43 by zadrien          ###   ########.fr        #
+#    Updated: 2019/11/12 12:29:41 by zadrien          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -20,12 +20,13 @@ CPATH= srcs/
 OPATH= obj/
 HPATH= includes/ libft/includes/
 INC= $(addprefix -I , $(HPATH))
+
+COMMON_FILES= common/flags.c common/checkFile.c common/mapFile.c \
+
 NM_FILES= nm/main.c nm/nm.c nm/section.c nm/archive.c nm/fat.c nm/print.c \
 	nm/commands/symtab.c  nm/commands/stabs.c nm/commands/symbol.c nm/commands/sort.c \
 
-OTOOL_FILES= otool/main.c otool/otool.c \
-
-COMMON_FILES= common/flags.c common/checkFile.c common/mapFile.c \
+OTOOL_FILES= otool/main.c otool/otool.c otool/section.c \
 
 NM_OFILES= $(NM_FILES:.c=.o)
 OTOOL_OFILES= $(OTOOL_FILES:.c=.o)

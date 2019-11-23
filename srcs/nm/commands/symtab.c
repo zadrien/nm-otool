@@ -6,13 +6,13 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/05 10:38:09 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/10 17:40:04 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/11/23 18:30:32 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
 
-void	symtab_64(void *ptr, void *lc, t_lst *sects, int flags) {
+void	symtab_64(void *ptr, void *lc, t_lst *sects, int flags, int swap) {
 	unsigned int			i;
 	char					*name;
 	struct symtab_command	*symtab;
@@ -22,10 +22,11 @@ void	symtab_64(void *ptr, void *lc, t_lst *sects, int flags) {
 	
 	i = -1;
 	lst = NULL;
-	symtab = (struct symtab_command*)lc;
+	symtab = swap_symtab_cmd(lc, swap);
 	symbol = ptr + symtab->symoff;
 	name = ptr + symtab->stroff;
 	while (++i < symtab->nsyms) {
+		symbol[i] = swap_nlist64(symbol[i], swap);
 		if (N_STAB & symbol[i].n_type) {
 			if (!(flags & A))
 				continue ;
@@ -44,7 +45,7 @@ void	symtab_64(void *ptr, void *lc, t_lst *sects, int flags) {
 	freeSymbol(&lst);
 }
 
-void	symtab_32(void *ptr, void *lc, t_lst *sects, int flags) {
+void	symtab_32(void *ptr, void *lc, t_lst *sects, int flags, int swap) {
 	unsigned int			i;
 	char					*name;
 	struct symtab_command	*symtab;
@@ -54,10 +55,11 @@ void	symtab_32(void *ptr, void *lc, t_lst *sects, int flags) {
 	
 	i = -1;
 	lst = NULL;
-	symtab = (struct symtab_command*)lc;
+	symtab = swap_symtab_cmd(lc, swap);
 	symbol = ptr + symtab->symoff;
 	name = ptr + symtab->stroff;
 	while (++i < symtab->nsyms) {
+		symbol[i] = swap_nlist(symbol[i], swap);
 		if (N_STAB & symbol[i].n_type) {
 			if (!(flags & A))
 				continue ;
@@ -73,6 +75,7 @@ void	symtab_32(void *ptr, void *lc, t_lst *sects, int flags) {
 		newElem(&lst, el, flags);
 	}
 	printSymbols(lst, flags);
+//	ft_putendl("after printing symbol");
 	freeSymbol(&lst);
 }
 

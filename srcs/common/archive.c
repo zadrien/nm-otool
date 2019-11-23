@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fat.c                                              :+:      :+:    :+:   */
+/*   archive.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/11 12:05:08 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/23 18:34:11 by zadrien          ###   ########.fr       */
+/*   Created: 2019/11/22 10:29:37 by zadrien           #+#    #+#             */
+/*   Updated: 2019/11/22 10:33:14 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "nm.h"
+#include "common.h"
 
-void	handle_fat(void *ptr, int flags, int swap) {
-	size_t				nstructs;
-	size_t				i;
-	struct fat_header	*hdr;
-	struct fat_arch		*ar;
-
-	i = 0;
-	hdr = (struct fat_header*)ptr;
-	ar = (void*)hdr + sizeof(struct fat_header);
-	nstructs = swap ? swp_int(hdr->nfat_arch) : hdr->nfat_arch;
-	if (nstructs > 0)
-		nm((void*)ptr + (swap ? swp_int(ar->offset) : ar->offset), flags);
+void	print_ar_name(char *path, struct ar_hdr *hdr) {
+	char	dst[17];
+	
+	ft_memset(dst, '\0', 17);
+	if (!ft_strncmp(hdr->ar_name, AR_EFMT1, 3))
+		ft_strcpy(dst, hdr->ar_fmag + 2);
+	else
+		ft_strncpy(dst, hdr->ar_name, 16);
+	ft_putendl("");
+	if (path)
+		ft_putstr(path);
+	ft_putstr("(");
+	ft_putstr(dst);
+	ft_putendl("):");
 }

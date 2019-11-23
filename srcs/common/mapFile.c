@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 19:32:49 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/11 19:52:35 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/11/23 15:07:37 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,22 @@ int		validFile(char *file, struct stat buf) {
 
 int		mapFile(char *file, int flags, int (*f)(void*, int)) {
 	int			fd;
+	int			ret;
 	void		*ptr;
 	struct stat	buf;
 
+	ret = 0;
 	if ((fd = open(file, O_RDONLY)) < 0)
 		return 0;
 	if (fstat(fd, &buf) == 0) {
 		if (validFile(file, buf)) {
-			if ((ptr = mmap(0, buf.st_size, PROT_READ, MAP_PRIVATE, fd, 0)) != MAP_FAILED) {
-				f(ptr, flags);
+			if ((ptr = mmap(0, buf.st_size, PROT_READ | PROT_WRITE, MAP_PRIVATE, fd, 0)) != MAP_FAILED) {
+				ret = f(ptr, flags);
 				if (munmap(ptr, buf.st_size) < 0)
 					exit(EXIT_FAILURE);
 			}
 		}
 	}
 	close(fd);
-	return 0;
+	return ret;
 }

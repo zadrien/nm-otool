@@ -6,14 +6,30 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 17:46:41 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/23 16:22:59 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/11/24 13:24:03 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
 
+void	pad(char *str) {
+	int			i;
+	static int	sp = 7;
+
+
+	i = sp - ft_strlen(str) - 1;
+	while (i--)
+		ft_putchar(' ');
+	ft_putstr(str);
+	ft_putchar(' ');
+	
+}
 void print(t_symbol *el) {
-	ft_putstr(el->type == 'U' ? "                ": el->value);
+	static int i = 0;
+
+	if (i == 0)
+		i = ft_strlen(el->value);
+	ft_putstr(el->type == 'U' ? (i == 16 ? SPACE_64B : SPACE_32B) : el->value);
 	ft_putchar(' ');
 	if (el->type == '-')
 		ft_putchar(el->type);
@@ -24,16 +40,42 @@ void print(t_symbol *el) {
 		ft_putstr(el->sect);
 		ft_putchar(' ');
 		ft_putstr(el->desc);
-		ft_putchar(' ');
-		ft_putstr(el->stab);
-		ft_putchar(' ');	
+		pad(el->stab);
 	}
-	ft_putendl(el->name);
+	ft_putstr(el->name);
+	ft_putchar('\n');
+}
+
+void section(unsigned int type, unsigned int desc, char c) {
+	(void)c;
+//	if (c == 'U') {
+//	if ((type & N_TYPE) == N_PBUD) {
+	if ((type & N_TYPE) == N_ABS) {
+		ft_putstr(" (absolute)");
+		return ;
+	} else if ((type & N_TYPE) == N_PBUD) {
+		ft_putstr(" (prebound ");
+	} else
+		ft_putstr(" (");
+	if ((desc & REFERENCE_TYPE) == REFERENCE_FLAG_UNDEFINED_LAZY)
+		ft_putstr("undefined [lazy bound])");
+	else if ((desc & REFERENCE_TYPE) == REFERENCE_FLAG_PRIVATE_UNDEFINED_LAZY)
+		ft_putstr("undefined [private lazy bound])");
+	else if ((desc & REFERENCE_TYPE) == REFERENCE_FLAG_PRIVATE_UNDEFINED_NON_LAZY)
+		ft_putstr("undefined [private])");
+	else
+		ft_putstr("undefined)");
+	
+	//	ft_putstr("?)");
 }
 
 void printText(t_symbol *el) {
 	t_sect *s;
-	ft_putstr(el->type == 'U' ? "                " : el->value);
+	static int	i = 0;
+
+	if (i == 0)
+		i = ft_strlen(el->value);
+	ft_putstr(el->type == 'U' ? (i == 16 ? SPACE_64B : SPACE_32B) : el->value);
 	if (el->section) {
 		s = el->section ;
 		ft_putstr(" (");
@@ -42,13 +84,15 @@ void printText(t_symbol *el) {
 		ft_putstr(s->sectname);
 		ft_putstr(") ");
 	} else {
-		ft_putstr(el->type == 'U' ? " (undefined)" : " (?)");
+		section(el->n_type, el->n_desc, el->type);
+//		ft_putstr(el->type == 'U' ? " (undefined)" : " (?)");
 	}
 	ft_putchar(' ');
 	ft_putstr(el->ext ? STR_EXT : STR_N_EXT);
 	ft_putchar(' ');
 	ft_putstr(el->name);
-	ft_putendl(el->type == 'U' ? STR_LIBSYS : "");
+	ft_putstr(el->type == 'U' ? STR_LIBSYS : "");
+	ft_putchar('\n');
 	
 }
 

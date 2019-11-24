@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 18:44:44 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/23 18:35:15 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/11/24 14:05:43 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ void	otool_32(void *ptr, int flags, int swap) {
 	i = 0;
 	(void)swap;
 	hdr = (struct mach_header*)ptr;
-	ncmds = hdr->ncmds;
-	lc = (void*)ptr + sizeof(struct mach_header);
+	ncmds = swap ? swp_int(hdr->ncmds) : hdr->ncmds;
+	lc = swap_load_cmd((void*)ptr + sizeof(struct mach_header), swap);
 	while (i++ < ncmds) {
 		if (lc->cmd == LC_SEGMENT)
-			section_32(ptr, (void*)lc, flags);
-		lc = (void*)lc + lc->cmdsize;
+			section_32(ptr, (void*)lc, flags, swap);
+		lc = swap_load_cmd((void*)lc + lc->cmdsize, swap);
 	}
 	return;
 }
@@ -40,14 +40,14 @@ void	otool_64(void *ptr, int flags, int swap) {
 	struct load_command		 *lc;
 	
 	i = 0;
-	(void)swap;
+//	(void)swap;
 	hdr = (struct mach_header_64*)ptr;
-	ncmds = hdr->ncmds;
-	lc = (void*)ptr + sizeof(struct mach_header_64);
+	ncmds = swap ? swp_int(hdr->ncmds) : hdr->ncmds;
+	lc = swap_load_cmd((void*)ptr + sizeof(struct mach_header_64), swap);
 	while (i++ < ncmds) {
 		if (lc->cmd == LC_SEGMENT_64)
-			section_64(ptr, (void*)lc, flags);
-		lc = (void*)lc + lc->cmdsize;
+			section_64(ptr, (void*)lc, flags, swap);
+		lc = swap_load_cmd((void*)lc + lc->cmdsize, swap);
 	}
 }
 

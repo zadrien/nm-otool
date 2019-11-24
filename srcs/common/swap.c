@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 14:08:54 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/23 17:59:02 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/11/24 14:30:27 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,59 @@ struct nlist_64	swap_nlist64(struct nlist_64 symbol, int swap) {
 	symbol.n_value = swp_int(symbol.n_value);
 	symbol.n_un.n_strx = swp_int(symbol.n_un.n_strx);
 	return symbol;
+}
+
+struct section_64 *swap_sect64(struct section_64 *sg, int swap) {
+	if (!swap)
+		return sg;
+	sg->addr = swp_int(sg->addr);
+	sg->size = swp_int(sg->size);
+	sg->offset = swp_int(sg->offset);
+	sg->align = swp_int(sg->align);
+	sg->reloff = swp_int(sg->reloff);
+	sg->nreloc = swp_int(sg->nreloc);
+	sg->flags = swp_int(sg->flags);
+	return sg;
+}
+
+
+struct section *swap_sect(struct section *sg, int swap) {
+	if (!swap)
+		return sg;
+	sg->addr = swp_int(sg->addr);
+	sg->size = swp_int(sg->size);
+	sg->offset = swp_int(sg->offset);
+	sg->align = swp_int(sg->align);
+	sg->reloff = swp_int(sg->reloff);
+	sg->nreloc = swp_int(sg->nreloc);
+	sg->flags = swp_int(sg->flags);
+	return sg;
+}
+
+struct segment_command_64	*swap_sg_cmd64(struct segment_command_64 *sg, int swap) {
+	if (!swap)
+		return sg;
+	sg->cmd = swp_int(sg->cmd);
+	sg->cmdsize = swp_int(sg->cmdsize);
+	sg->vmaddr = swp_int(sg->vmaddr);
+	sg->vmsize = swp_int(sg->vmsize);
+	sg->fileoff = swp_int(sg->fileoff);
+	sg->filesize = swp_int(sg->filesize);
+	sg->nsects = swp_int(sg->nsects);
+	sg->flags = swp_int(sg->flags);
+	return sg;
+}
+
+struct segment_command		*swap_sg_cmd(struct segment_command *sg, int swap) {
+	if (!swap)
+		return sg;
+//	sg->cmd = swp_int(sg->cmd);
+//	sg->cmdsize = swp_int(sg->cmdsize);
+	sg->vmaddr = swp_int(sg->vmaddr);
+	sg->vmsize = swp_int(sg->vmsize);
+	sg->fileoff = swp_int(sg->fileoff);
+	sg->filesize = swp_int(sg->filesize);
+	sg->nsects = swp_int(sg->nsects);
+	sg->flags = swp_int(sg->flags);
+	return sg;
 }

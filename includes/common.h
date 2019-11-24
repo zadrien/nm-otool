@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 18:58:20 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/23 18:22:19 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/11/24 13:43:37 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,8 @@ struct symtab_command		*swap_symtab_cmd(struct symtab_command *sc, int swap);
 struct symtab_command_64	*swap_symtab_cmd64(struct symtab_command_64 *sc, int swap);
 struct nlist				swap_nlist(struct nlist symbol, int swap);
 struct nlist_64				swap_nlist64(struct nlist_64 symbol, int swap);
+struct segment_command_64	*swap_sg_cmd64(struct segment_command_64 *sg, int swap);
+struct segment_command		*swap_sg_cmd(struct segment_command *sg, int swap);
+struct section_64 *swap_sect64(struct section_64 *sg, int swap);
+struct section *swap_sect(struct section *sg, int swap);
 #endif

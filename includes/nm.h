@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/05 10:38:21 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/23 18:25:44 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/11/24 13:11:07 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,12 @@
 # define STR_EXT "external"
 # define STR_N_EXT "non-external"
 # define STR_LIBSYS " (from libSystem)"
-# define SECT_CONST "__const"
-
+# define SPACE_32B "        "
+# define SPACE_64B "                "
 
 
 int		nm(void *ptr, int flags);
 int		options(char **arg, unsigned int *opt);
-
-/* typedef struct		s_flags { */
-/* 	char	c; */
-/* 	unsigned int	b; */
-/* }					t_flags; */
-
-/* int		is_32(void *ptr); */
-/* int		is_64(void *ptr); */
-/* int		is_fat(void *ptr); */
-/* int		is_archive(void *ptr); */
 
 void	handle_32(void *ptr, int flags, int swap);
 void	handle_64(void *ptr, int flags, int swap);
@@ -67,7 +57,7 @@ void	printSec(t_lst *lst);
 t_lst	*saveSect64(t_lst **lst, void *ptr);
 t_lst	*saveSect32(t_lst **lst, void *ptr, int swap);
 void	freeSection(t_lst **lst);
-char	getLetter(unsigned int type, t_sect *section);
+char	getLetter(unsigned int type, unsigned int value, t_sect *section);
 void	freeSection(t_lst **lst);
 void	*getSec(t_lst *lst, size_t nbr);
 /*****************************************/
@@ -79,9 +69,10 @@ void	symtab_32(void *ptr, void *lc, t_lst *sects, int flags, int swap);
 char	*ft_type(unsigned int value); // description
 
 typedef struct		s_symbol {
-	unsigned int	n_type;
+	uint8_t	n_type;
 	unsigned int	n_sect;
-
+	unsigned int	n_desc;
+//	unsigned int	n_
 	char			*value;
 	char			type;
 	char			*sect;

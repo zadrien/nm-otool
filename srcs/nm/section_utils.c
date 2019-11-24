@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 19:51:20 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/22 19:55:24 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/11/24 12:26:16 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,25 +22,30 @@ t_lst	*init_sectlst() {
 	
 }
 
-char	getLetter(unsigned int type, t_sect *section) {
+char	sectionLetter(t_sect *section) {
+	if (!ft_strcmp(section->sectname, SECT_TEXT))
+		return 'T';
+	else if (!ft_strcmp(section->sectname, SECT_DATA))
+		return 'D';
+	else if (!ft_strcmp(section->sectname, SECT_BSS))
+		return 'B';
+	else
+		return 'S';
+}
+
+char	getLetter(unsigned int type, unsigned int value, t_sect *section) {
 	if (N_STAB & type) {
 		return '-';
 	} else if ((N_TYPE & type) == N_UNDF) {
-		return  (type & N_EXT) ? 'U' : 'C';
+		return  (value != 0) ? 'C' : 'U';
 	} else if ((N_TYPE & type) == N_ABS) {
 		return 'A';
 	} else if ((N_TYPE & type) == N_INDR) {
 		return 'I';
 	} else if (section != NULL) {
-		if (!ft_strcmp(section->sectname, SECT_TEXT))
-			return 'T';
-		if (!ft_strcmp(section->sectname, SECT_DATA))
-			return 'D';
-		if (!ft_strcmp(section->sectname, SECT_CONST))
-			return 'S';
-		if (!ft_strcmp(section->sectname, SECT_BSS))
-			return 'B';
-	}
+		return sectionLetter(section);
+	} else if ((type & N_TYPE) == N_PBUD)
+		return 'U';
 	return '?';
 }
 

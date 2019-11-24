@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 08:44:22 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/23 17:35:11 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/11/24 12:50:00 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,12 @@ t_symbol *newSymbol64(struct nlist_64 symbol, t_lst *sections, char *offset)
 	new = NULL;
 	if (!(new = (t_symbol*)malloc(sizeof(t_symbol))))
 		return NULL;
+	new->n_type = symbol.n_type;
+	new->n_desc = symbol.n_desc;
+	new->n_sect = symbol.n_sect;
 	new->value = ft_hex(symbol.n_value, 16);
 	new->section = (N_TYPE & symbol.n_type) == N_SECT ? getSec(sections, symbol.n_sect): NULL;
-	new->type = getLetter(symbol.n_type, new->section);
+	new->type = getLetter(symbol.n_type, symbol.n_value, new->section);
 	if (new->type == '-') {
 		new->stab = ft_type(symbol.n_type);
 		new->sect = ft_hex(symbol.n_sect, 2);
@@ -40,9 +43,12 @@ t_symbol *newSymbol(struct nlist symbol, t_lst *sections, char *offset)
 	new = NULL;
 	if (!(new = (t_symbol*)malloc(sizeof(t_symbol))))
 		return NULL;
+	new->n_type = symbol.n_type;
+	new->n_desc = symbol.n_desc;
+	new->n_sect = symbol.n_sect;
 	new->value = ft_hex(symbol.n_value, 8);
 	new->section = (N_TYPE & symbol.n_type) == N_SECT ? getSec(sections, symbol.n_sect): NULL;
-	new->type = getLetter(symbol.n_type, new->section);
+	new->type = getLetter(symbol.n_type, symbol.n_value, new->section);
 	if (new->type == '-') {
 		new->stab = ft_type(symbol.n_type);
 		new->sect = ft_hex(symbol.n_sect, 2);

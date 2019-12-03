@@ -6,15 +6,16 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 10:29:37 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/22 10:33:14 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/12/03 20:47:18 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "common.h"
 
-void	print_ar_name(char *path, struct ar_hdr *hdr) {
+void	print_ar_name(char *path, struct ar_hdr *hdr)
+{
 	char	dst[17];
-	
+
 	ft_memset(dst, '\0', 17);
 	if (!ft_strncmp(hdr->ar_name, AR_EFMT1, 3))
 		ft_strcpy(dst, hdr->ar_fmag + 2);

@@ -42,8 +42,8 @@
  * and contains the constants for the possible values of these types.
  */
 #include <stdint.h>
-#include <mach/machine.h>
-#include <architecture/byte_order.h>
+//#include <mach/machine.h>
+//#include <architecture/byte_order.h>
 
 #define FAT_MAGIC	0xcafebabe
 #define FAT_CIGAM	0xbebafeca	/* NXSwapLong(FAT_MAGIC) */
@@ -54,8 +54,8 @@ struct fat_header {
 };
 
 struct fat_arch {
-	cpu_type_t	cputype;	/* cpu specifier (int) */
-	cpu_subtype_t	cpusubtype;	/* machine specifier (int) */
+	int	cputype;	/* cpu specifier (int) */
+	int	cpusubtype;	/* machine specifier (int) */
 	uint32_t	offset;		/* file offset to this object file */
 	uint32_t	size;		/* size of this object file */
 	uint32_t	align;		/* alignment as a power of 2 */

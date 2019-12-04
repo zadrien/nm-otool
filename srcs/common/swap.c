@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 14:08:54 by zadrien           #+#    #+#             */
-/*   Updated: 2019/12/03 20:59:22 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/12/04 14:44:08 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ struct load_command			*swap_load_cmd(struct load_command *lc, int swap)
 		return (lc);
 	lc->cmd = swp_int(lc->cmd);
 	lc->cmdsize = swp_int(lc->cmdsize);
-	return (lc0;
+	return (lc);
 }
 
 struct symtab_command		*swap_symtab_cmd(struct symtab_command *sc, int swap) {
@@ -38,7 +38,7 @@ struct symtab_command		*swap_symtab_cmd(struct symtab_command *sc, int swap) {
 	sc->nsyms = swp_int(sc->nsyms);
 	sc->stroff = swp_int(sc->stroff);
 	sc->strsize = swp_int(sc->strsize);
-	return sc;
+	return (sc);
 }
 
 struct nlist				swap_nlist(struct nlist symbol, int swap)

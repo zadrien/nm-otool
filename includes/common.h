@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 18:58:20 by zadrien           #+#    #+#             */
-/*   Updated: 2019/12/04 14:18:42 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/12/04 14:43:35 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 	# include "./fat.h"
 	# include "./loader.h"
 	# include "./nlist.h"
-	# include "./stabs.h"
+	# include "./stab.h"
+	# define AR_EFMT1 "#1/"
 #endif
 
 #ifndef COMMON_H

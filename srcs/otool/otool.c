@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 18:44:44 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/24 14:05:43 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/12/04 14:45:13 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,10 @@ void	otool_ar(void *ptr, int flags, int swap) {
 }
 
 void	otool_fat(void *ptr, int flags, int swap) {
-	int					i;
 	int					nstructs;
 	struct fat_header	*hdr;
 	struct fat_arch		*ar;
 
-	i = 0;
 	(void)swap;
 	hdr = (struct fat_header*)ptr;
 	ar = (void*)hdr + sizeof(struct fat_header);
@@ -103,10 +101,6 @@ int		start(void *ptr, int flags) {
 }
 
 int		otool(char *file, int flags) {
-	void	*ptr;
-	ft_putendl(file);
-
-	ptr = NULL;
 	if (mapFile(file, flags, start)) {
 		printf("otool: %s: file format not found\n", file);
 	}

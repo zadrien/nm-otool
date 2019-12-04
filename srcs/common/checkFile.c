@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 19:03:43 by zadrien           #+#    #+#             */
-/*   Updated: 2019/12/03 20:50:32 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/12/04 16:11:06 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		is_32(void *ptr)
 	mn = *(unsigned int*)ptr;
 	if (mn == MH_CIGAM)
 		return (1);
-	if (mn == MH_CIGAM || mn == MH_MAGIC)
+	if (mn == MH_MAGIC)
 		return (0);
 	return (-1);
 }
@@ -51,7 +51,7 @@ int		is_fat(void *ptr)
 	magic = *(unsigned int*)ptr;
 	if (magic == FAT_CIGAM)
 		return (1);
-	if (magic == FAT_CIGAM || magic == FAT_MAGIC)
+	if (magic == FAT_MAGIC)
 		return (1);
 	return (-1);
 }

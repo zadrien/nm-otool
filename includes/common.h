@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 18:58:20 by zadrien           #+#    #+#             */
-/*   Updated: 2019/12/04 14:43:35 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/12/04 17:50:26 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,13 @@
 # include "libft.h"
 # include <ar.h>
 
+typedef struct				s_ofile {
+	char					*name;
+	void					*ptr;
+	int						*swap;
+	size_t					size;
+}							t_ofile;
+
 typedef struct				s_flags {
 	char					c;
 	unsigned int			b;
@@ -52,7 +59,7 @@ int							is_64(void *ptr);
 int							is_fat(void *ptr);
 int							is_archive(void *ptr);
 
-int							mapFile(char *file, int flags, int (*f)(void*, int));
+int							mapFile(char *file, int flags, int (*f)(char*, void*, int));
 void						print_ar_name(char *path, struct ar_hdr *hdr);
 
 uint64_t					swp_int(uint64_t v);

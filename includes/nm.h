@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/05 10:38:21 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/29 16:40:54 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/12/04 17:15:40 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # define SPACE_64B "                "
 
 
-int		nm(void *ptr, int flags);
+int		nm(char *name, void *ptr, int flags);
 int		options(char **arg, unsigned int *opt);
 
 void	handle_32(void *ptr, int flags, int swap);

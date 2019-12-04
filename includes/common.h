@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 18:58:20 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/24 13:43:37 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/12/04 14:18:42 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 	# include <mach-o/loader.h>
 	# include <mach-o/nlist.h>
 	# include <mach-o/stab.h>
+#else
+	# include "./fat.h"
+	# include "./loader.h"
+	# include "./nlist.h"
+	# include "./stabs.h"
 #endif
 
 #ifndef COMMON_H

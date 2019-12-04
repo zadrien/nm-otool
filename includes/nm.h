@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/05 10:38:21 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/24 13:11:07 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/11/29 16:40:54 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ void	symtab_32(void *ptr, void *lc, t_lst *sects, int flags, int swap);
 char	*ft_type(unsigned int value); // description
 
 typedef struct		s_symbol {
-	uint8_t	n_type;
+	uint8_t			n_type;
 	unsigned int	n_sect;
 	unsigned int	n_desc;
-//	unsigned int	n_
+	unsigned int	n_value;
 	char			*value;
 	char			type;
 	char			*sect;

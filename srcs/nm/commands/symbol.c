@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 08:44:22 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/24 12:50:00 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/11/29 16:41:27 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_symbol *newSymbol64(struct nlist_64 symbol, t_lst *sections, char *offset)
 	new->n_type = symbol.n_type;
 	new->n_desc = symbol.n_desc;
 	new->n_sect = symbol.n_sect;
+	new->n_value = symbol.n_value;
 	new->value = ft_hex(symbol.n_value, 16);
 	new->section = (N_TYPE & symbol.n_type) == N_SECT ? getSec(sections, symbol.n_sect): NULL;
 	new->type = getLetter(symbol.n_type, symbol.n_value, new->section);
@@ -46,6 +47,7 @@ t_symbol *newSymbol(struct nlist symbol, t_lst *sections, char *offset)
 	new->n_type = symbol.n_type;
 	new->n_desc = symbol.n_desc;
 	new->n_sect = symbol.n_sect;
+	new->n_value = symbol.n_value;
 	new->value = ft_hex(symbol.n_value, 8);
 	new->section = (N_TYPE & symbol.n_type) == N_SECT ? getSec(sections, symbol.n_sect): NULL;
 	new->type = getLetter(symbol.n_type, symbol.n_value, new->section);

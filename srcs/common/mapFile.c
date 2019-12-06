@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 19:32:49 by zadrien           #+#    #+#             */
-/*   Updated: 2019/12/04 18:32:09 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/12/05 15:00:13 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int		validFile(char *file, struct stat buf)
 	return (1);
 }
 
-t_ofile	*init() {
+t_ofile	*init(void) {
 	t_ofile		*ofile;
 	
 	if (!(ofile = (t_ofile*)malloc(sizeof(t_ofile))))
@@ -57,7 +57,7 @@ t_ofile	*init() {
 	return (ofile);
 }
 
-int		mapFile(char *file, int flags, int (*f)(char*, void*, int))
+int		mapFile(char *file, int flags, int (*f)(t_ofile*, int))
 {
 	int			fd;
 	int			ret;
@@ -69,16 +69,17 @@ int		mapFile(char *file, int flags, int (*f)(char*, void*, int))
 	if ((fd = open(file, O_RDONLY)) < 0)
 		return (0);
 	if (!(ofile = init()))
-		return (NULL);
+		return (1);
 	ofile->name = file;
 	if (fstat(fd, &buf) == 0)
 		if (validFile(file, buf))
-			ofile->size = buf.st_size;
+//			ofile->size = buf.st_size;
 			if ((ptr = mmap(0, buf.st_size, PROT_READ | PROT_WRITE,
 							MAP_PRIVATE, fd, 0)) != MAP_FAILED)
 			{
 				ofile->ptr = ptr;
-				ret = f(file, ptr, flags);
+				ofile->size = (void*)ptr + buf.st_size;
+				ret = f(ofile, flags);
 				if (munmap(ptr, buf.st_size) < 0)
 					exit(EXIT_FAILURE);
 			}

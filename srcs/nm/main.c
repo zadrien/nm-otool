@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 17:12:28 by zadrien           #+#    #+#             */
-/*   Updated: 2019/12/04 17:04:32 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/12/06 16:36:38 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int     main(int ac, char **av)
 	char			dflt[7] = "a.out\0";
 
 	opt = 0;
-	if ((i = getFlags(av, &opt, flags, 6)) == -1)
+	if ((i = getFlags(av, &opt, flags, 6)) == 0)
 		return 0;
 	return (mapFile(av[i] == NULL ? dflt : av[i], opt, nm));
 }

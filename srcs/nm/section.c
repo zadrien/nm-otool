@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 11:46:03 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/23 16:34:12 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/12/06 16:51:11 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,11 @@ t_lst	*saveSect64(t_lst **lst, void *ptr) {
 	tmp = (void*)new + (sizeof(t_sect) * l->nbr);
 	sect = (void*)ptr + sizeof(struct segment_command_64);
 	while(i++ < sg->nsects) {
-		if (!ft_strlen(sect->sectname))
+		ft_putendl(sect->sectname);
+		if (!ft_strlen(sect->sectname)) {
+			ft_putendl("ici");
 			return NULL;
+		}
 		tmp->segname = sect->segname;
 		tmp->sectname = sect->sectname;
 		tmp = (void*)tmp + sizeof(t_sect);

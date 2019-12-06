@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 19:03:01 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/11 20:26:05 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/12/06 16:37:30 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		getFlags(char **arg, unsigned int *opt, t_flags *arr, size_t len) {
 					}
 				}
 				if (y == len) {
-					printf("[P] otool: option don't exist: %c\n", arg[i][j]);
+					printf("%s: option don't exist: %c\n", arg[0] + 2, arg[i][j]);
 					return 0;
 				}
 				y = -1;

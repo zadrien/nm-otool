@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 17:14:00 by zadrien           #+#    #+#             */
-/*   Updated: 2019/12/04 17:27:44 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/12/05 17:19:24 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,5 @@ int		main(int ac, char **av) {
 		return usage();
 	if (!(i = getFlags(av, &flags, array, 1)))
 		return 0;
-	return (mapFile(av[1], flags, otool));
+	return (mapFile(av[i], flags, otool));
 }

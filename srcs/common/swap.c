@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 14:08:54 by zadrien           #+#    #+#             */
-/*   Updated: 2019/12/04 14:44:08 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/12/06 16:23:20 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ struct nlist				swap_nlist(struct nlist symbol, int swap)
 struct nlist_64				swap_nlist64(struct nlist_64 symbol, int swap)
 {
 	if (!swap)
-		return symbol;
+		return (symbol);
 	symbol.n_value = swp_int(symbol.n_value);
 	symbol.n_un.n_strx = swp_int(symbol.n_un.n_strx);
-	return symbol;
+	return (symbol);
 }
 
 struct section_64			*swap_sect64(struct section_64 *sg, int swap)

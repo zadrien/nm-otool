@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 12:22:34 by zadrien           #+#    #+#             */
-/*   Updated: 2019/12/06 18:18:23 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/12/07 13:12:54 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	print64(t_ofile *ofile, struct section_64 *section)
 		if  (i % 16 == 0) {
 			if (i > 0)
 				ft_putendl("");
-			ft_puthex((unsigned long long)addr, 8, 0);
+			ft_puthex((unsigned long long)addr, 16, 0);
 			ft_putchar('\t');
 		}
 		ft_puthex((unsigned long long)(*str), 2, 0);
@@ -76,10 +76,12 @@ void	section_64(t_ofile *ofile, void *segment, int flags)
 	size_t						i;
 	struct section_64			*sect;
 	struct segment_command_64	*sg;
-	struct section_64			*text;
+	struct section_64			*text;	
+	struct section_64			*data;
 
 	i = 0;
 	text = NULL;
+	data = NULL;
 	sg = swap_sg_cmd64((struct segment_command_64*)segment, ofile->swap);
 	sect = swap_sect64((void*)sg + sizeof(struct segment_command_64), ofile->swap);
 	if ((unsigned long)(void*)sect >= (unsigned long)ofile->size)
@@ -90,14 +92,25 @@ void	section_64(t_ofile *ofile, void *segment, int flags)
 		if (flags & T)
 			if (!ft_strcmp(sect->segname, SEG_TEXT) && !ft_strcmp(sect->sectname, SECT_TEXT))
 				text = swap_sect64(sect, ofile->swap);
+		if (flags & d)
+			if (!ft_strcmp(sect->segname, SEG_DATA) && !ft_strcmp(sect->sectname, SECT_DATA))
+				data = swap_sect64(sect, ofile->swap);
 		if (((unsigned long)(void*)sect + sizeof(struct section_64)) >= (unsigned long)ofile->size)
 			return ;
 		sect = swap_sect64((void*)sect + sizeof(struct section_64), ofile->swap);
 	}
+	ft_putstr(ofile->name);
+	ft_putendl(":");
 	if (text != NULL)
 	{
-		ft_putendl("Contents of (__TEXT, __text) section:");
+		ft_putendl("Contents of (__TEXT, __text) section");
 		print64(ofile, text);
+	}
+	if (data != NULL) {
+		ft_putstr(ofile->name);
+		ft_putendl(":");
+		ft_putendl("Contents of (__DATA, __DATA) section");
+		print64(ofile, data);
 	}
 }
 

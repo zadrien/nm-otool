@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 18:58:20 by zadrien           #+#    #+#             */
-/*   Updated: 2019/12/06 17:47:35 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/12/07 15:14:50 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,13 @@ struct nlist				swap_nlist(struct nlist symbol, int swap);
 struct nlist_64				swap_nlist64(struct nlist_64 symbol, int swap);
 struct segment_command_64	*swap_sg_cmd64(struct segment_command_64 *sg, int swap);
 struct segment_command		*swap_sg_cmd(struct segment_command *sg, int swap);
-struct section_64 *swap_sect64(struct section_64 *sg, int swap);
-struct section *swap_sect(struct section *sg, int swap);
+struct section_64			*swap_sect64(struct section_64 *sg, int swap);
+struct section				*swap_sect(struct section *sg, int swap);
+
+struct mach_header_64		*swap_mh64(struct mach_header_64 *mh, int swap);
+struct mach_header			*swap_mh(struct mach_header *mh, int swap);
+	
+int							validFile(struct stat buf);
+int							fileUnvalid(char *file, char *error);
+int							fileDontExist(char *file);
 #endif

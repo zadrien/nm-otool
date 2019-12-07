@@ -6,38 +6,51 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 19:03:01 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/11 20:26:05 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/12/07 15:20:29 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "common.h"
 
-int		getFlags(char **arg, unsigned int *opt, t_flags *arr, size_t len) {
+int		parse_flags(unsigned int *opt, char *str, t_flags *arr, size_t len)
+{
 	size_t	i;
-	size_t	y;
 	size_t	j;
+	
+	i = -1;
+	while (str[++i])
+	{
+		j = -1;
+		while (++j < len)
+			if (arr[j].c == str[i])
+			{
+				*opt = *opt | arr[j].b;
+				break ;
+			}
+		if (j == len)
+		{
+			printf("%s: option don't exist: %c\n", "nm", str[i]);
+			return (1);
+		}
+	}
+	return (0);
+}
+
+int		getFlags(char **arg, unsigned int *opt, t_flags *arr, size_t len)
+{
+	size_t	i;
 
 	i = 0;
-	j = 0;
-	y = -1;
-	while (arg[i++] != NULL) {
-		if (arg[i][0] == '-' && arg[i][1] != '-') {
-			while (arg[i][++j] != '\0') {
-				while (++y < len) {
-					if (arr[y].c == arg[i][j]) {
-						*opt = *opt | arr[y].b;
-						break ;
-					}
-				}
-				if (y == len) {
-					printf("[P] otool: option don't exist: %c\n", arg[i][j]);
-					return 0;
-				}
-				y = -1;
-			}
-			j = 0;
+	while (arg[++i])
+	{
+		if (!ft_strcmp(arg[i], "--"))
+			return (i + 1);
+		if (arg[i][0] == '-' && arg[i][1] != '-')
+		{
+			if (parse_flags(opt, arg[i] + 1, arr, len))
+				return (0);
 		} else
 			break ;
 	}
-	return i++;
+	return (i);
 }

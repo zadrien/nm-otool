@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 18:58:20 by zadrien           #+#    #+#             */
-/*   Updated: 2019/12/04 17:50:26 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/12/07 15:14:50 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,6 @@
 	# include <mach-o/loader.h>
 	# include <mach-o/nlist.h>
 	# include <mach-o/stab.h>
-#else
-	# include "./fat.h"
-	# include "./loader.h"
-	# include "./nlist.h"
-	# include "./stab.h"
-	# define AR_EFMT1 "#1/"
 #endif
 
 #ifndef COMMON_H
@@ -37,8 +31,8 @@
 typedef struct				s_ofile {
 	char					*name;
 	void					*ptr;
-	int						*swap;
-	size_t					size;
+	int						swap;
+	void					*size;
 }							t_ofile;
 
 typedef struct				s_flags {
@@ -51,7 +45,7 @@ int							getFlags(char **arg, unsigned int *opt, t_flags *arr, size_t len);
 
 typedef struct				s_type {
 	int						(*check)(void*);
-	void					(*f)(void*, int, int);
+	void					(*f)(t_ofile*, int);
 }							t_type;
 
 int							is_32(void *ptr);
@@ -59,8 +53,10 @@ int							is_64(void *ptr);
 int							is_fat(void *ptr);
 int							is_archive(void *ptr);
 
-int							mapFile(char *file, int flags, int (*f)(char*, void*, int));
+int							mapFile(char *file, int flags, int (*f)(t_ofile*, int));
 void						print_ar_name(char *path, struct ar_hdr *hdr);
+
+t_ofile						*init(void);
 
 uint64_t					swp_int(uint64_t v);
 struct load_command			*swap_load_cmd(struct load_command *lc, int swap);
@@ -71,6 +67,13 @@ struct nlist				swap_nlist(struct nlist symbol, int swap);
 struct nlist_64				swap_nlist64(struct nlist_64 symbol, int swap);
 struct segment_command_64	*swap_sg_cmd64(struct segment_command_64 *sg, int swap);
 struct segment_command		*swap_sg_cmd(struct segment_command *sg, int swap);
-struct section_64 *swap_sect64(struct section_64 *sg, int swap);
-struct section *swap_sect(struct section *sg, int swap);
+struct section_64			*swap_sect64(struct section_64 *sg, int swap);
+struct section				*swap_sect(struct section *sg, int swap);
+
+struct mach_header_64		*swap_mh64(struct mach_header_64 *mh, int swap);
+struct mach_header			*swap_mh(struct mach_header *mh, int swap);
+	
+int							validFile(struct stat buf);
+int							fileUnvalid(char *file, char *error);
+int							fileDontExist(char *file);
 #endif

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/05 10:38:21 by zadrien           #+#    #+#             */
-/*   Updated: 2019/12/04 17:15:40 by zadrien          ###   ########.fr       */
+/*   Updated: 2019/12/07 16:25:12 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 
 # include "common.h"
 
-# define A (1 << 0) /*	all symbol entries flags		*/
-# define G (1 << 1) /*	only global (external) symbols	*/
-# define M (1 << 2) /*	diplay string representation	*/
-# define P (1 << 3) /*	display in symbol-table order	*/
-# define u (1 << 4) /*	display only undefined symbol	*/
-# define U (1 << 5) /*	dont display undefined symbol	*/
-
+# define A (1 << 0) /*	all symbol entries flags				*/
+# define G (1 << 1) /*	only global (external) symbols			*/
+# define M (1 << 2) /*	diplay string representation			*/
+# define P (1 << 3) /*	display in symbol-table order	(OK)	*/
+# define u (1 << 4) /*	display only undefined symbol	(OK)	*/
+# define U (1 << 5) /*	dont display undefined symbol	(OK)	*/
+# define n (1 << 6) /*	Sorted numericaly				(OK)	*/
 # define STR_EXT "external"
 # define STR_N_EXT "non-external"
 # define STR_LIBSYS " (from libSystem)"
@@ -30,17 +30,17 @@
 # define SPACE_64B "                "
 
 
-int		nm(char *name, void *ptr, int flags);
+int		nm(t_ofile *ofile, int flags);
 int		options(char **arg, unsigned int *opt);
 
-void	handle_32(void *ptr, int flags, int swap);
-void	handle_64(void *ptr, int flags, int swap);
-void	handle_fat(void *ptr, int flags, int swap);
-void	handle_archive(void *ptr, int flags, int swap);
+void	handle_32(t_ofile *ofile, int flags);
+void	handle_64(t_ofile *ofile, int flags);
+void	handle_fat(t_ofile *ofile, int flags);
+void	handle_archive(t_ofile *ofile, int flags);
 
-/*****************************/
-/*			SECTION			 */
-/*****************************/
+/* ************************************************************************** */
+/*										SECTION								  */
+/* ************************************************************************** */
 
 typedef struct		s_lst {
 	size_t			nbr;
@@ -54,15 +54,16 @@ typedef struct		s_sect {
 
 t_lst	*init_sectlst();
 void	printSec(t_lst *lst);
-t_lst	*saveSect64(t_lst **lst, void *ptr);
-t_lst	*saveSect32(t_lst **lst, void *ptr, int swap);
+t_lst	*saveSect64(t_ofile *ofile, t_lst **lst, void *ptr);
+t_lst	*saveSect32(t_ofile *ofile, t_lst **lst, void *ptr);
 void	freeSection(t_lst **lst);
 char	getLetter(unsigned int type, unsigned int value, t_sect *section);
 void	freeSection(t_lst **lst);
 void	*getSec(t_lst *lst, size_t nbr);
-/*****************************************/
-/*				SYMBOL TABLE			 */
-/*****************************************/
+
+/* ************************************************************************** */
+/*								SYMBOL TABLE								  */
+/* ************************************************************************** */
 
 void	symtab_64(void *ptr, void *lc, t_lst *sects, int flags, int swap);
 void	symtab_32(void *ptr, void *lc, t_lst *sects, int flags, int swap);

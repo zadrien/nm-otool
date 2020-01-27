@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 17:46:41 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/24 13:24:03 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/01/27 16:12:48 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,19 @@ void	pad(char *str) {
 	ft_putchar(' ');
 	
 }
-void print(t_symbol *el) {
+void	print(t_symbol *el)
+{
 	static int i = 0;
 
 	if (i == 0)
 		i = ft_strlen(el->value);
 	ft_putstr(el->type == 'U' ? (i == 16 ? SPACE_64B : SPACE_32B) : el->value);
 	ft_putchar(' ');
-	if (el->type == '-')
-		ft_putchar(el->type);
-	else
+	el->type == '-' ? ft_putchar(el->type) :
 		ft_putchar(el->ext ? el->type : el->type + 32);
 	ft_putchar(' ');
-	if (el->type == '-') {
+	if (el->type == '-')
+	{
 		ft_putstr(el->sect);
 		ft_putchar(' ');
 		ft_putstr(el->desc);
@@ -46,14 +46,15 @@ void print(t_symbol *el) {
 	ft_putchar('\n');
 }
 
-void section(unsigned int type, unsigned int desc, char c) {
+void	section(unsigned int type, unsigned int desc, char c)
+{
 	(void)c;
-//	if (c == 'U') {
-//	if ((type & N_TYPE) == N_PBUD) {
-	if ((type & N_TYPE) == N_ABS) {
+	if ((type & N_TYPE) == N_ABS)
+	{
 		ft_putstr(" (absolute)");
 		return ;
-	} else if ((type & N_TYPE) == N_PBUD) {
+	} else if ((type & N_TYPE) == N_PBUD)
+	{
 		ft_putstr(" (prebound ");
 	} else
 		ft_putstr(" (");
@@ -65,48 +66,45 @@ void section(unsigned int type, unsigned int desc, char c) {
 		ft_putstr("undefined [private])");
 	else
 		ft_putstr("undefined)");
-	
-	//	ft_putstr("?)");
 }
 
-void printText(t_symbol *el) {
+void	print_text(t_symbol *el)
+{
 	t_sect *s;
 	static int	i = 0;
 
 	if (i == 0)
 		i = ft_strlen(el->value);
 	ft_putstr(el->type == 'U' ? (i == 16 ? SPACE_64B : SPACE_32B) : el->value);
-	if (el->section) {
+	if (el->section)
+	{
 		s = el->section ;
 		ft_putstr(" (");
 		ft_putstr(s->segname);
 		ft_putchar(',');
 		ft_putstr(s->sectname);
 		ft_putstr(") ");
-	} else {
+	} else
 		section(el->n_type, el->n_desc, el->type);
-//		ft_putstr(el->type == 'U' ? " (undefined)" : " (?)");
-	}
 	ft_putchar(' ');
 	ft_putstr(el->ext ? STR_EXT : STR_N_EXT);
 	ft_putchar(' ');
 	ft_putstr(el->name);
 	ft_putstr(el->type == 'U' ? STR_LIBSYS : "");
 	ft_putchar('\n');
-	
 }
 
-void printSymbols(t_symbol *lst, int flags) {
+void	printSymbols(t_symbol *lst, int flags)
+{
 	t_symbol	*tmp;
 	
-	if (!lst)
-		return ;
-	tmp = lst;
-	while (tmp) {
-		if (flags & M)
-			printText(tmp);
-		else
-			print(tmp);
-		tmp = tmp->next;
+	if (lst)
+	{
+		tmp = lst;
+		while (tmp)
+		{
+			flags & M ? print_text(tmp) : print(tmp);
+			tmp = tmp->next;
+		}
 	}
 }

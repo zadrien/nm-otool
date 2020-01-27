@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 12:05:08 by zadrien           #+#    #+#             */
-/*   Updated: 2020/01/25 20:31:52 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/01/27 16:08:01 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,9 @@ int		handle_fat(t_ofile *ofile, int flags)
 	struct fat_header	*hdr;
 	struct fat_arch		*ar;
 
-	ft_putendl("!");
 	hdr = (struct fat_header*)ofile->ptr;
 	ar = (void*)hdr + sizeof(struct fat_header);
-	if ((unsigned long)((void*)ar) >= (unsigned long)ofile->size)
+	if (is_overflow(ar, ofile->size))
 		return (1);
 	nstructs = ofile->swap ? swp_int(hdr->nfat_arch) : hdr->nfat_arch;
 	if (nstructs > 0)
@@ -45,7 +44,7 @@ int		handle_fat(t_ofile *ofile, int flags)
 			(ofile->swap ? swp_int(ar->offset) : ar->offset);
 		ofat->size = ofile->size;
 		ofat->swap = 0;
-		if ((unsigned long)ofat->ptr < (unsigned long)ofile->size)
+		if (!is_overflow(ofat->ptr, ofile->size))
 			fat(ofat, flags);
 		free(ofat);
 	}

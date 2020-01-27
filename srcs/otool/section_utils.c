@@ -6,20 +6,11 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 16:33:02 by zadrien           #+#    #+#             */
-/*   Updated: 2020/01/27 13:49:32 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/01/27 15:45:08 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "otool.h"
-
-/* t_section	*init_sect(void *ptr) { */
-/* 	t_section	*s; */
-
-/* 	if (!(s = (t_section*)malloc(sizeof(t_section)))) */
-/* 		return (NULL); */
-/* 	s->ptr = ptr; */
-/* 	return (s); */
-/* } */
 
 t_lst	*save_section(t_ofile *ofile, t_lst **lst, void *saved)
 {
@@ -28,20 +19,21 @@ t_lst	*save_section(t_ofile *ofile, t_lst **lst, void *saved)
 	if (*lst == NULL)
 		if (!(*lst = init_sectlst()))
 			return (NULL);
-	if (saved) {
-		if ((*lst)->nbr == 0) {
-			if (!(page = (t_section*)malloc(sizeof(t_section) * ((*lst)->nbr + 1))))
-				return (NULL);
-			page->ptr = saved;
-			(*lst)->ptr = page;
-			(*lst)->nbr++;
-		} else {
-			if (!(page = (t_section*)malloc(sizeof(t_section) * ((*lst)->nbr + 1))))
-				return (NULL);
-			(*lst)->nbr++;
-			copy_section(lst, &page, saved);
-		}
-		
+	if (!saved)
+		return (*lst);
+	if ((*lst)->nbr == 0)
+	{
+		if (!(page = (t_section*)malloc(sizeof(t_section) * ((*lst)->nbr + 1))))
+			return (NULL);
+		page->ptr = saved;
+		(*lst)->ptr = page;
+		(*lst)->nbr++;
+	} else
+	{
+		if (!(page = (t_section*)malloc(sizeof(t_section) * ((*lst)->nbr + 1))))
+			return (NULL);
+		(*lst)->nbr++;
+		copy_section(lst, &page, saved);
 	}
 	return (*lst);
 }

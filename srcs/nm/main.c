@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 17:12:28 by zadrien           #+#    #+#             */
-/*   Updated: 2020/01/18 14:35:05 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/01/27 16:08:24 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ int     main(int ac, char **av)
 	unsigned int	opt;
 
 	opt = 0;
-	if ((i = getFlags(av, &opt, flags, 8)) == 0)
-		return 0;
+	if ((i = get_flags(av, &opt, flags, 8)) == 0)
+		return (0);
 	if (!av[i])
-		return (mapFile("a.out", opt, nm));
+		return (map_file("a.out", opt, nm));
 	while (av[i])
-		ret = mapFile(av[i++], opt, nm);
+		ret = map_file(av[i++], opt, nm);
 	return (ret);
 }

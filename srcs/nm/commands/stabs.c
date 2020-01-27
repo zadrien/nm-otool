@@ -6,18 +6,14 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 20:05:05 by zadrien           #+#    #+#             */
-/*   Updated: 2019/12/03 21:09:36 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/01/27 16:26:34 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
 
-typedef struct	s_stab {
-	uint8_t		type;
-	char		*str;
-}				t_stab;
-
-char	*ft_type(unsigned int value) {
+char	*ft_type(unsigned int value)
+{
 	int						i;
 	static const	t_stab	type[29] = { {N_GSYM, "GSYM"}, {N_FNAME, "FNAME"},
 {N_FUN, "FUN"}, {N_STSYM, "STSYM"}, {N_LCSYM, "LCSYM"}, {N_BNSYM, "BNSYM"},

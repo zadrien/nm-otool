@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 11:46:03 by zadrien           #+#    #+#             */
-/*   Updated: 2020/01/24 18:43:46 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/01/27 16:14:54 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_lst	*copy_section64(t_lst **lst, t_sect **new, void *ptr,
 		sect = (void*)sect + sizeof(struct section_64);
 	}
 	(*lst)->nbr += sg->nsects;
-	return *lst;
+	return (*lst);
 }
 
 t_lst	*copy_section(t_lst **lst, t_sect **new, void *ptr,
@@ -65,10 +65,10 @@ t_lst	*copy_section(t_lst **lst, t_sect **new, void *ptr,
 		sect = (void*)sect + sizeof(struct section);
 	}
 	(*lst)->nbr += sg->nsects;
-	return *lst;
+	return (*lst);
 }
 
-t_lst	*saveSect64(t_ofile *ofile, t_lst **lst, void *ptr)
+t_lst	*save_sect64(t_ofile *ofile, t_lst **lst, void *ptr)
 {
 	t_sect						*new;
 	struct segment_command_64	*sg;
@@ -83,13 +83,14 @@ t_lst	*saveSect64(t_ofile *ofile, t_lst **lst, void *ptr)
 		return (NULL);
 	if (copy_section64(lst, &new, ptr, sg) == NULL)
 	{
-		display_error(ofile->name , "The file was not recognized as a valid object file.");
+		display_error(ofile->name ,
+					  "The file was not recognized as a valid object file.");
 		return (NULL);
 	}
 	return (*lst);
 }
 
-t_lst	*saveSect32(t_ofile *ofile, t_lst **lst, void *lc)
+t_lst	*save_sect32(t_ofile *ofile, t_lst **lst, void *lc)
 {
 	t_sect					*new;
 	struct segment_command	*sg;
@@ -104,57 +105,26 @@ t_lst	*saveSect32(t_ofile *ofile, t_lst **lst, void *lc)
 		return (NULL);
 	if (copy_section(lst, &new, lc, sg) == NULL)
 	{
-		display_error(ofile->name , "The file was not recognized as a valid object file.");
+		display_error(ofile->name,
+					  "The file was not recognized as a valid object file.");
 		return (NULL);
 	}
 	return (*lst);
 }
 
-/* t_lst	*saveSect64(t_ofile *ofile, t_lst **lst, void *ptr) */
+/* void printSec(t_lst *lst) */
 /* { */
-/* 	t_sect						*new; */
-/* 	struct segment_command_64	*sg; */
-
-/* 	if (*lst == NULL) */
-/* 		if (!(*lst = init_sectlst())) */
-/* 			return NULL; */
-/* 	sg = swap_sg_cmd64(ptr, ofile->swap); */
-/* 	if (sg->nsects == 0) */
-/* 		return *lst; */
-/* 	if (!(new = (t_sect*)malloc(sizeof(t_sect) * ((*lst)->nbr + sg->nsects)))) */
-/* 		return (NULL); */
-/* 	return (copy_section64(lst, &new, ptr, sg)); */
-/* } */
-
-/* t_lst	*saveSect32(t_ofile *ofile, t_lst **lst, void *ptr) */
-/* { */
-/* 	t_sect					*new; */
-/* 	struct segment_command	*sg; */
-
-/* 	if (*lst == NULL) */
-/* 		if (!(*lst = init_sectlst())) */
-/* 			return NULL; */
-/* 	sg = swap_sg_cmd(ptr, ofile->swap); */
-/* 	if (sg->nsects == 0) */
-/* 		return *lst; */
-/* 	if (!(new = (t_sect*)malloc(sizeof(t_sect) * ((*lst)->nbr + sg->nsects)))) */
-/* 		return (NULL); */
-/* 	return (copy_section(lst, &new, ptr, sg)); */
-/* } */
-
-void printSec(t_lst *lst)
-{
-	int		i;
-	t_lst	*tmp;
-	t_sect	*sect;
+/* 	int		i; */
+/* 	t_lst	*tmp; */
+/* 	t_sect	*sect; */
 	
-	if (!lst)
-		return ;
-	tmp = lst;
-	i = tmp->nbr;
-	sect = tmp->ptr;
-	while (--i) {
-		printf("(%s, %s)\n", sect->segname, sect->sectname);
-		sect = (void*)sect + sizeof(t_sect);
-	}
-}
+/* 	if (!lst) */
+/* 		return ; */
+/* 	tmp = lst; */
+/* 	i = tmp->nbr; */
+/* 	sect = tmp->ptr; */
+/* 	while (--i) { */
+/* 		printf("(%s, %s)\n", sect->segname, sect->sectname); */
+/* 		sect = (void*)sect + sizeof(t_sect); */
+/* 	} */
+/* } */

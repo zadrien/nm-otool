@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 10:29:37 by zadrien           #+#    #+#             */
-/*   Updated: 2020/01/24 20:41:28 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/01/27 15:45:50 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	print_ar_name(char *path, struct ar_hdr *hdr)
 		ft_strcpy(dst, hdr->ar_fmag + 2);
 	else
 		ft_strncpy(dst, hdr->ar_name, 16);
-//	ft_putendl("");
 	if (path)
 		ft_putstr(path);
 	ft_putstr("(");

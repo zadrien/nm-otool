@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 18:44:44 by zadrien           #+#    #+#             */
-/*   Updated: 2020/01/27 14:32:10 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/01/27 15:55:25 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,13 @@ int otool_64(t_ofile	*ofile, int flags) {
 				save_section(ofile, &lst, new);
 			new = NULL;
 		}
-		if ((unsigned long)((void*)lc + lc->cmdsize) >= (unsigned long)ofile->size) {
-			ret = 0;
+		if ((ret = is_overflow((void*)lc + lc->cmdsize, ofile->size)))
 			break ;
-		}
 		lc = swap_load_cmd((void*)lc + lc->cmdsize, ofile->swap);
 	}
-	if (ret) 
+	if (!ret) 
 		print_saved_section64(ofile, lst);
-	freeSection(&lst);
+	free_section(&lst);
 	return (0);
 }
 
@@ -90,15 +88,13 @@ int otool_32(t_ofile *ofile, int flags) {
 				save_section(ofile, &lst, new);
 			new = NULL;
 		}
-		if ((unsigned long)((void*)lc + lc->cmdsize) >= (unsigned long)ofile->size) {
-			ret = 0;
+		if ((ret = is_overflow((void*)lc + lc->cmdsize, ofile->size)))
 			break ;
-		}
 		lc = swap_load_cmd((void*)lc + lc->cmdsize, ofile->swap);
 	}
-	if (ret) 
+	if (!ret) 
 		print_saved_section32(ofile, lst);
-	freeSection(&lst);
+	free_section(&lst);
 	return (0);
 }
 
@@ -133,7 +129,7 @@ int		otool_fat(t_ofile *ofile, int flags)
 
 	hdr = (struct fat_header*)ofile->ptr;
 	ar = (void*)hdr + sizeof(struct fat_header);
-	if ((unsigned long)((void*)ar) >= (unsigned long)ofile->size)
+	if (is_overflow((void*)ar, ofile->size))
 		return (1);
 	nstructs = ofile->swap ? swp_int(hdr->nfat_arch) : hdr->nfat_arch;
 	if (nstructs > 0)
@@ -142,8 +138,8 @@ int		otool_fat(t_ofile *ofile, int flags)
 			return (1);
 		ofat->name = ofile->name;
 		ofat->ptr = ofile->ptr + (ofile->swap ? swp_int(ar->offset) : ar->offset);
-		ofat->size = ofile->size; // WARINING
-		if ((unsigned long)ofat->ptr < (unsigned long)ofat->size)
+		ofat->size = ofile->size; // WARNING
+		if (!is_overflow(ofat->ptr, ofat->size))
 			fat(ofat, flags);
 		free(ofat);
 	}

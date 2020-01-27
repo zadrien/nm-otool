@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 18:58:20 by zadrien           #+#    #+#             */
-/*   Updated: 2019/12/07 15:14:50 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/01/25 17:10:29 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 # include "libft.h"
 # include <ar.h>
 
+
+#define DEBUG	(1 << 7) /*	DEBUG variable */
 typedef struct				s_ofile {
 	char					*name;
 	void					*ptr;
@@ -45,8 +47,15 @@ int							getFlags(char **arg, unsigned int *opt, t_flags *arr, size_t len);
 
 typedef struct				s_type {
 	int						(*check)(void*);
-	void					(*f)(t_ofile*, int);
+	int						(*f)(t_ofile*, int);
 }							t_type;
+
+typedef struct		s_lst {
+	size_t			nbr;
+	void			*ptr;
+}					t_lst;
+t_lst	*init_sectlst();
+void	freeSection(t_lst **lst);
 
 int							is_32(void *ptr);
 int							is_64(void *ptr);
@@ -72,7 +81,8 @@ struct section				*swap_sect(struct section *sg, int swap);
 
 struct mach_header_64		*swap_mh64(struct mach_header_64 *mh, int swap);
 struct mach_header			*swap_mh(struct mach_header *mh, int swap);
-	
+
+void						display_error(char *file, char *msg);
 int							validFile(struct stat buf);
 int							fileUnvalid(char *file, char *error);
 int							fileDontExist(char *file);

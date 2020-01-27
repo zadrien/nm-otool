@@ -6,13 +6,13 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 08:44:22 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/29 16:41:27 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/01/24 19:58:32 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
 
-t_symbol *newSymbol64(struct nlist_64 symbol, t_lst *sections, char *offset)
+t_symbol *newSymbol64(t_ofile *ofile, struct nlist_64 symbol, t_lst *sections, char *name)
 {
 	t_symbol *new;
 
@@ -32,12 +32,12 @@ t_symbol *newSymbol64(struct nlist_64 symbol, t_lst *sections, char *offset)
 		new->desc = ft_hex(symbol.n_desc, 4);
 	}
 	new->ext = symbol.n_type & N_EXT;
-	new->name = ft_strdup(offset + symbol.n_un.n_strx);
+	new->name = ft_strndup(name, (size_t)(ofile->size - (void*)name));
 	new->next = NULL;
 	return new;
 }
 
-t_symbol *newSymbol(struct nlist symbol, t_lst *sections, char *offset)
+t_symbol *newSymbol(t_ofile *ofile, struct nlist symbol, t_lst *sections, char *name)
 {
 	t_symbol *new;
 
@@ -57,15 +57,17 @@ t_symbol *newSymbol(struct nlist symbol, t_lst *sections, char *offset)
 		new->desc = ft_hex(symbol.n_desc, 4);
 	}
 	new->ext = symbol.n_type & N_EXT;
-	new->name = ft_strdup(offset + symbol.n_un.n_strx);
+	new->name = ft_strdup(name);
+//	new->name = ft_strndup(name, (size_t)(ofile->size - (void*)name));
 	new->next = NULL;
 	return new;
 }
 
-void	freeSymbol(t_symbol **lst) {
+void	freeSymbol(t_symbol **lst)
+{
 	t_symbol	*tmp;
 	t_symbol	*p;
-
+	
 	if (*lst == NULL)
 		return ;
 	tmp = *lst;

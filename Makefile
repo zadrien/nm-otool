@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/11 16:22:07 by zadrien           #+#    #+#              #
-#    Updated: 2019/12/07 13:47:09 by zadrien          ###   ########.fr        #
+#    Updated: 2020/01/26 13:52:38 by zadrien          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -15,7 +15,7 @@
 CC= gcc
 NM_NAME= nm
 OTOOL_NAME= otool
-CFLAGS= -g -Wall -Werror -Wextra
+CFLAGS= -g # -Wall -Werror -Wextra
 CPATH= srcs/
 OPATH= obj/
 HPATH= includes/ libft/includes/
@@ -23,12 +23,14 @@ INC= $(addprefix -I , $(HPATH))
 
 COMMON_FILES= 	common/flags.c common/checkFile.c common/mapFile.c \
 				common/archive.c common/swap.c common/swap2.c common/misc.c \
+				common/section.c \
 
 NM_FILES= 	nm/main.c nm/nm.c nm/section.c nm/section_utils.c nm/archive.c \
 			nm/fat.c nm/print.c nm/commands/symtab.c  nm/commands/stabs.c \
 			nm/commands/symbol.c nm/commands/sort.c \
 
-OTOOL_FILES= otool/main.c otool/otool.c otool/section.c \
+OTOOL_FILES= otool/main.c otool/otool.c otool/section.c otool/section_utils.c \
+			otool/print.c \
 
 NM_OFILES= $(NM_FILES:.c=.o)
 OTOOL_OFILES= $(OTOOL_FILES:.c=.o)
@@ -58,7 +60,7 @@ $(OPATH)%.o: $(CPATH)%.c $(HFILES)
 	@mkdir -p $(OPATH)otool/
 	@mkdir -p $(OPATH)common/
 
-	$(CC) -g -Wall -Werror -Wextra  $(INC) $< -c -o $@
+	$(CC) $(CFLAGS)  $(INC) $< -c -o $@
 
 clean:
 	make -C libft clean

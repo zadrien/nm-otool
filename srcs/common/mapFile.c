@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 19:32:49 by zadrien           #+#    #+#             */
-/*   Updated: 2019/12/07 13:41:40 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/01/25 12:48:20 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,14 @@ t_ofile	*init(void)
 	ofile->size = 0;
 	ofile->swap = 0;
 	return (ofile);
+}
+
+void	print_ofile(t_ofile *ofile) {
+	printf("-----------OFILE------------\n");
+	printf("name: %s\n", ofile->name);
+	printf("start map: %p\n", ofile->ptr);
+	printf("swap: %d\n", ofile->swap);
+	printf("size: %p\n", ofile->size);
 }
 
 int		statFile(int fd, t_ofile *ofile, int flags, int (*f)(t_ofile*, int))
@@ -43,6 +51,8 @@ int		statFile(int fd, t_ofile *ofile, int flags, int (*f)(t_ofile*, int))
 		{
 			ofile->ptr = ptr;
 			ofile->size = (void*)ptr + buf.st_size;
+			if (DEBUG & flags)
+				print_ofile(ofile);
 			ret = f(ofile, flags);
 			if (munmap(ptr, buf.st_size) < 0)
 				exit(EXIT_FAILURE);

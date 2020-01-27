@@ -6,19 +6,19 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/01 11:47:26 by zadrien           #+#    #+#             */
-/*   Updated: 2019/12/05 15:51:08 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/01/25 12:53:20 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
 
-void	handle_archive(t_ofile *ofile, int flags)
+int		handle_archive(t_ofile *ofile, int flags)
 {
 	t_ofile			*oar;
 	struct ar_hdr	*hdr;
 
 	if (!(oar = init()))
-		return ;
+		return (1);
 	oar->name = ofile->name;
 	oar->size = ofile->size;
 	hdr = (struct ar_hdr*)((void*)ofile->ptr + SARMAG);
@@ -37,4 +37,5 @@ void	handle_archive(t_ofile *ofile, int flags)
 		}
 	}
 	free(oar);
+	return (0);
 }

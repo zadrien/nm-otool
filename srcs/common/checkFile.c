@@ -6,11 +6,18 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 19:03:43 by zadrien           #+#    #+#             */
-/*   Updated: 2019/12/06 16:23:53 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/01/24 18:44:13 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "common.h"
+
+void	display_error(char *file, char *msg)
+{
+	ft_putstr_fd(file, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putendl_fd(msg, 2);
+}
 
 int		is_32(void *ptr)
 {

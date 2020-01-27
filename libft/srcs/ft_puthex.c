@@ -6,13 +6,14 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:50:24 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/21 20:34:19 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/01/27 15:40:15 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 void	ft_puthex(unsigned long long hex, int pad, int up) {
+	(void)pad;
 	int		i;
 	int		r;
 	char	str[16];

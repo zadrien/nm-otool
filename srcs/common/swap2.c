@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/07 13:15:07 by zadrien           #+#    #+#             */
-/*   Updated: 2019/12/07 16:10:58 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/01/27 15:58:00 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ struct segment_command_64	*swap_sg_cmd64(struct segment_command_64 *sg, int swap
 {
 	if (!swap)
 		return (sg);
-//	sg->cmd = swp_int(sg->cmd);
-//	sg->cmdsize = swp_int(sg->cmdsize);
 	sg->vmaddr = swp_int(sg->vmaddr);
 	sg->vmsize = swp_int(sg->vmsize);
 	sg->fileoff = swp_int(sg->fileoff);
@@ -68,22 +66,11 @@ struct segment_command		*swap_sg_cmd(struct segment_command *sg, int swap)
 	return (sg);
 }
 
-struct mach_header			*swap_mh(struct mach_header *mh, int swap)
+struct load_command		*swap_load_cmd(struct load_command *lc, int swap)
 {
 	if (!swap)
-		return (mh);
-	mh->magic = swp_int(mh->magic);
-	mh->ncmds = swp_int(mh->ncmds);
-	mh->sizeofcmds = swp_int(mh->sizeofcmds);
-	return (mh);
-}
-
-struct mach_header_64		*swap_mh64(struct mach_header_64 *mh, int swap)
-{
-	if (!swap)
-		return (mh);
-	mh->magic = swp_int(mh->magic);
-	mh->ncmds = swp_int(mh->ncmds);
-	mh->sizeofcmds = swp_int(mh->sizeofcmds);
-	return (mh);
+		return (lc);
+	lc->cmd = swp_int(lc->cmd);
+	lc->cmdsize = swp_int(lc->cmdsize);
+	return (lc);
 }

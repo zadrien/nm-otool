@@ -6,25 +6,30 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 14:08:54 by zadrien           #+#    #+#             */
-/*   Updated: 2019/12/07 13:18:10 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/01/27 15:57:22 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "common.h"
 
-uint64_t				swp_int(uint64_t v)
-{
-	return (((v >> 24) & 0xff) | ((v << 8) & 0xff0000) |
-			((v >> 8) & 0xff00) | ((v << 24) & 0xff000000));
-}
-
-struct load_command		*swap_load_cmd(struct load_command *lc, int swap)
+struct mach_header			*swap_mh(struct mach_header *mh, int swap)
 {
 	if (!swap)
-		return (lc);
-	lc->cmd = swp_int(lc->cmd);
-	lc->cmdsize = swp_int(lc->cmdsize);
-	return (lc);
+		return (mh);
+	mh->magic = swp_int(mh->magic);
+	mh->ncmds = swp_int(mh->ncmds);
+	mh->sizeofcmds = swp_int(mh->sizeofcmds);
+	return (mh);
+}
+
+struct mach_header_64		*swap_mh64(struct mach_header_64 *mh, int swap)
+{
+	if (!swap)
+		return (mh);
+	mh->magic = swp_int(mh->magic);
+	mh->ncmds = swp_int(mh->ncmds);
+	mh->sizeofcmds = swp_int(mh->sizeofcmds);
+	return (mh);
 }
 
 struct symtab_command	*swap_symtab_cmd(struct symtab_command *sc, int swap) {

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 19:32:49 by zadrien           #+#    #+#             */
-/*   Updated: 2019/12/07 13:41:40 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/01/27 15:51:26 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,15 @@ t_ofile	*init(void)
 	return (ofile);
 }
 
-int		statFile(int fd, t_ofile *ofile, int flags, int (*f)(t_ofile*, int))
+void	print_ofile(t_ofile *ofile) {
+	printf("-----------OFILE------------\n");
+	printf("name: %s\n", ofile->name);
+	printf("start map: %p\n", ofile->ptr);
+	printf("swap: %d\n", ofile->swap);
+	printf("size: %p\n", ofile->size);
+}
+
+int		stat_file(int fd, t_ofile *ofile, int flags, int (*f)(t_ofile*, int))
 {
 	int			ret;
 	void		*ptr;	
@@ -35,25 +43,27 @@ int		statFile(int fd, t_ofile *ofile, int flags, int (*f)(t_ofile*, int))
 	ptr = NULL;
 	if (fstat(fd, &buf) == 0)
 	{
-		if (!validFile(buf))
-			fileUnvalid(ofile->name,
+		if (!valid_file(buf))
+			file_unvalid(ofile->name,
 						"The file was not recognized as a valid object file.");
 		else if ((ptr = mmap(0, buf.st_size, PROT_READ | PROT_WRITE,
 							 MAP_PRIVATE, fd, 0)) != MAP_FAILED)
 		{
 			ofile->ptr = ptr;
 			ofile->size = (void*)ptr + buf.st_size;
+			if (DEBUG & flags)
+				print_ofile(ofile);
 			ret = f(ofile, flags);
 			if (munmap(ptr, buf.st_size) < 0)
 				exit(EXIT_FAILURE);
 		} else
-			fileUnvalid(ofile->name,
+			file_unvalid(ofile->name,
 						"The file was not recognized as a valid object file.");
 	}
 	return (ret);
 }
 
-int		mapFile(char *file, int flags, int (*f)(t_ofile*, int))
+int		map_file(char *file, int flags, int (*f)(t_ofile*, int))
 {
 	int			fd;
 	int			ret;
@@ -61,11 +71,11 @@ int		mapFile(char *file, int flags, int (*f)(t_ofile*, int))
 
 	ret = 1;
 	if ((fd = open(file, O_RDONLY)) <= 0)
-		return (fileUnvalid(file, "No such file or directory"));
+		return (file_unvalid(file, "No such file or directory"));
 	if (!(ofile = init()))
 		return (1);
 	ofile->name = file;
-	ret = statFile(fd, ofile, flags, f);
+	ret = stat_file(fd, ofile, flags, f);
 	close(fd);
 	free(ofile);
 	return (ret);

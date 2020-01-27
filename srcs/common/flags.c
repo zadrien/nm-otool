@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 19:03:01 by zadrien           #+#    #+#             */
-/*   Updated: 2019/12/07 15:20:29 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/01/27 15:47:02 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int		parse_flags(unsigned int *opt, char *str, t_flags *arr, size_t len)
 	return (0);
 }
 
-int		getFlags(char **arg, unsigned int *opt, t_flags *arr, size_t len)
+int		get_flags(char **arg, unsigned int *opt, t_flags *arr, size_t len)
 {
 	size_t	i;
 

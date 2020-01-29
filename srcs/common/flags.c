@@ -16,7 +16,7 @@ int		parse_flags(unsigned int *opt, char *str, t_flags *arr, size_t len)
 {
 	size_t	i;
 	size_t	j;
-	
+
 	i = -1;
 	while (str[++i])
 	{
@@ -49,7 +49,8 @@ int		get_flags(char **arg, unsigned int *opt, t_flags *arr, size_t len)
 		{
 			if (parse_flags(opt, arg[i] + 1, arr, len))
 				return (0);
-		} else
+		}
+		else
 			break ;
 	}
 	return (i);

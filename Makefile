@@ -1,4 +1,4 @@
-#******************************************************************************#
+# **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
@@ -6,31 +6,31 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/11 16:22:07 by zadrien           #+#    #+#              #
-#    Updated: 2020/01/27 15:53:37 by zadrien          ###   ########.fr        #
+#    Updated: 2020/01/29 18:58:11 by zadrien          ###   ########.fr        #
 #                                                                              #
-#******************************************************************************#
+# **************************************************************************** #
 
 .PHONY: all clean fclean name re
 
 CC= gcc
 NM_NAME= nm
 OTOOL_NAME= otool
-CFLAGS= -g # -Wall -Werror -Wextra
+CFLAGS= -g -Wall -Werror -Wextra
 CPATH= srcs/
 OPATH= obj/
 HPATH= includes/ libft/includes/
 INC= $(addprefix -I , $(HPATH))
 
-COMMON_FILES= 	common/flags.c common/checkFile.c common/mapFile.c \
+COMMON_FILES= 	common/flags.c common/check_file.c common/map_file.c \
 				common/archive.c common/swap.c common/swap2.c common/misc.c \
 				common/section.c \
 
 NM_FILES= 	nm/main.c nm/nm.c nm/section.c nm/section_utils.c nm/archive.c \
 			nm/fat.c nm/print.c nm/commands/symtab.c  nm/commands/stabs.c \
-			nm/commands/symbol.c nm/commands/sort.c \
+			nm/commands/symbol.c nm/commands/sort.c nm/print_utils.c \
 
 OTOOL_FILES= otool/main.c otool/otool.c otool/section.c otool/section_utils.c \
-			otool/print.c \
+			otool/print.c otool/utils.c otool/otool_ar.c \
 
 NM_OFILES= $(NM_FILES:.c=.o)
 OTOOL_OFILES= $(OTOOL_FILES:.c=.o)
@@ -75,5 +75,5 @@ re: fclean all
 
 norme:
 		@norminette srcs/**/**.[ch]
-		@norminette libft/*.[ch]
+		@norminette libft/**/*.[ch]
 

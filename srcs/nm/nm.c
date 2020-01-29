@@ -12,59 +12,61 @@
 
 #include "nm.h"
 
-/* void	print_header64(t_ofile *ofile) { */
-/* 	struct mach_header_64 *header; */
-
-/* 	header = swap_mh64(ofile->ptr, ofile->swap); */
-/* 	printf("----- HEADER -----\n"); */
-/* 	printf("magic number: 0x%x\n", header->magic); */
-/* 	printf("nbr of load commands: %d\n", header->ncmds); */
-/* 	printf("size of all load commands: %d\n", header->sizeofcmds); */
-		
-/* } */
-
-/* void	print_header(t_ofile *ofile) { */
-/* 	struct mach_header *header; */
-
-/* 	header = swap_mh(ofile->ptr, ofile->swap); */
-/* 	printf("----- HEADER -----\n"); */
-/* 	printf("magic number: 0x%x\n", header->magic); */
-/* 	printf("nbr of load commands: %d\n", header->ncmds); */
-/* 	printf("size of all load commands: %d\n", header->sizeofcmds); */
-		
-/* } */
+int		check_lc64(t_ofile *ofile, struct load_command *lc,
+													t_lst **lst, int flags)
+{
+	if (lc->cmd == LC_SYMTAB)
+	{
+		symtab_64(ofile, (void*)lc, *lst, flags);
+		return (1);
+	}
+	else if (lc->cmd == LC_SEGMENT_64)
+	{
+		if (!save_sect64(ofile, lst, (void*)lc))
+			return (1);
+	}
+	return (0);
+}
 
 int		handle_64(t_ofile *ofile, int flags)
 {
 	int						ret;
 	uint32_t				i;
 	t_lst					*lst;
-	struct load_command		*lc;	
+	struct load_command		*lc;
 	struct mach_header_64	*header;
 
 	i = 0;
 	ret = 0;
 	lst = NULL;
-	/* if (DEBUG & flags) */
-	/* 	print_header64(ofile); */
 	header = swap_mh64(ofile->ptr, ofile->swap);
 	lc = swap_load_cmd(ofile->ptr + sizeof(struct mach_header_64), ofile->swap);
 	while (i++ < header->ncmds)
 	{
-		if (lc->cmd == LC_SYMTAB)
-		{
-			symtab_64(ofile, lc, lst, flags);
+		if (check_lc64(ofile, lc, &lst, flags))
 			break ;
-		}
-		else if (lc->cmd == LC_SEGMENT_64)
-			if (!save_sect64(ofile, &lst, (void*)lc))
-				break ;
 		if ((ret = is_overflow((void*)lc + lc->cmdsize, ofile->size)))
 			break ;
 		lc = swap_load_cmd((void*)lc + lc->cmdsize, ofile->swap);
 	}
 	free_section(&lst);
 	return (ret);
+}
+
+int		check_lc32(t_ofile *ofile, struct load_command *lc,
+													t_lst **lst, int flags)
+{
+	if (lc->cmd == LC_SYMTAB)
+	{
+		symtab_32(ofile, (void*)lc, *lst, flags);
+		return (1);
+	}
+	else if (lc->cmd == LC_SEGMENT)
+	{
+		if (!save_sect32(ofile, lst, (void*)lc))
+			return (1);
+	}
+	return (0);
 }
 
 int		handle_32(t_ofile *ofile, int flags)
@@ -78,19 +80,12 @@ int		handle_32(t_ofile *ofile, int flags)
 	i = 0;
 	ret = 0;
 	lst = NULL;
-	/* if (DEBUG & flags) */
-	/* 	print_header(ofile); */
 	header = swap_mh(ofile->ptr, ofile->swap);
 	lc = swap_load_cmd(ofile->ptr + sizeof(struct mach_header), ofile->swap);
 	while (i++ < header->ncmds)
 	{
-		if (lc->cmd == LC_SYMTAB)
-		{
-			symtab_32(ofile, lc, lst, flags);
+		if (check_lc32(ofile, lc, &lst, flags))
 			break ;
-		} else if (lc->cmd == LC_SEGMENT)
-			if (!save_sect32(ofile, &lst, (void*)lc))
-				break ;
 		if ((ret = is_overflow((void*)lc + lc->cmdsize, ofile->size)))
 			break ;
 		lc = swap_load_cmd((void*)lc + lc->cmdsize, ofile->swap);
@@ -99,10 +94,10 @@ int		handle_32(t_ofile *ofile, int flags)
 	return (ret);
 }
 
-int	nm(t_ofile *ofile, int flags)
+int		nm(t_ofile *ofile, int flags)
 {
-	size_t		i;
-	static t_type arr[4] = {{is_32, handle_32}, {is_64, handle_64},
+	size_t			i;
+	static t_type	arr[4] = {{is_32, handle_32}, {is_64, handle_64},
 							{is_fat, handle_fat}, {is_archive, handle_archive}};
 
 	i = -1;

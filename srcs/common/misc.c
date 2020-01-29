@@ -12,7 +12,7 @@
 
 #include "common.h"
 
-int		file_dontexist(char *file)
+int			file_dontexist(char *file)
 {
 	ft_putstr_fd("nm: '", 2);
 	ft_putstr_fd(file, 2);
@@ -20,7 +20,7 @@ int		file_dontexist(char *file)
 	return (0);
 }
 
-int		file_unvalid(char *file, char *error)
+int			file_unvalid(char *file, char *error)
 {
 	ft_putstr_fd("nm: ", 2);
 	ft_putstr_fd(file, 2);
@@ -29,21 +29,21 @@ int		file_unvalid(char *file, char *error)
 	return (1);
 }
 
-int		valid_file(struct stat buf)
+int			valid_file(struct stat buf)
 {
 	if (S_ISLNK(buf.st_mode) || S_ISREG(buf.st_mode))
 		return (1);
 	return (0);
 }
 
-int		is_overflow(void *addr, void *limit)
+int			is_overflow(void *addr, void *limit)
 {
 	if ((unsigned long)addr >= (unsigned long)limit)
 		return (1);
 	return (0);
 }
 
-uint64_t				swp_int(uint64_t v)
+uint64_t	swp_int(uint64_t v)
 {
 	return (((v >> 24) & 0xff) | ((v << 8) & 0xff0000) |
 			((v >> 8) & 0xff00) | ((v << 24) & 0xff000000));

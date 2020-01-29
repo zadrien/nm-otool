@@ -1,20 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   add_env.c                                          :+:      :+:    :+:   */
+/*   print_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/20 11:00:05 by zadrien           #+#    #+#             */
-/*   Updated: 2020/01/29 18:55:26 by zadrien          ###   ########.fr       */
+/*   Created: 2020/01/29 17:37:01 by zadrien           #+#    #+#             */
+/*   Updated: 2020/01/29 17:44:50 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "nm.h"
 
-int		add_env(t_env **env, char **var)
+void	pad(char *str)
 {
-	(*env)->var = ft_strdup(var[0]);
-	(*env)->value = var[1] ? ft_strdup(var[1]) : NULL;
-	return (1);
+	int			i;
+	static int	sp = 7;
+
+	i = sp - ft_strlen(str) - 1;
+	while (i--)
+		ft_putchar(' ');
+	ft_putstr(str);
+	ft_putchar(' ');
+}
+
+void	print_value(t_symbol *s)
+{
+	static int	i = 0;
+
+	if (!i)
+		i = ft_strlen(s->value);
+	if (s->type == 'U')
+		ft_putstr(i == 16 ? SPACE_64B : SPACE_32B);
+	else
+		ft_putstr(s->value);
 }

@@ -40,7 +40,8 @@ struct section				*swap_sect(struct section *sg, int swap)
 	return (sg);
 }
 
-struct segment_command_64	*swap_sg_cmd64(struct segment_command_64 *sg, int swap)
+struct segment_command_64	*swap_sg_cmd64(struct segment_command_64 *sg,
+																int swap)
 {
 	if (!swap)
 		return (sg);
@@ -53,7 +54,8 @@ struct segment_command_64	*swap_sg_cmd64(struct segment_command_64 *sg, int swap
 	return (sg);
 }
 
-struct segment_command		*swap_sg_cmd(struct segment_command *sg, int swap)
+struct segment_command		*swap_sg_cmd(struct segment_command *sg,
+															int swap)
 {
 	if (!swap)
 		return (sg);
@@ -66,7 +68,7 @@ struct segment_command		*swap_sg_cmd(struct segment_command *sg, int swap)
 	return (sg);
 }
 
-struct load_command		*swap_load_cmd(struct load_command *lc, int swap)
+struct load_command			*swap_load_cmd(struct load_command *lc, int swap)
 {
 	if (!swap)
 		return (lc);

@@ -26,17 +26,17 @@ char	section_letter(t_sect *section)
 
 char	get_type(unsigned int type, unsigned int value, t_sect *section)
 {
-	if (N_STAB & type) {
+	if (N_STAB & type)
 		return ('-');
-	} else if ((N_TYPE & type) == N_UNDF) {
-		return  ((value != 0) ? 'C' : 'U');
-	} else if ((N_TYPE & type) == N_ABS) {
+	else if ((N_TYPE & type) == N_UNDF)
+		return ((value != 0) ? 'C' : 'U');
+	else if ((N_TYPE & type) == N_ABS)
 		return ('A');
-	} else if ((N_TYPE & type) == N_INDR) {
+	else if ((N_TYPE & type) == N_INDR)
 		return ('I');
-	} else if (section != NULL) {
+	else if (section != NULL)
 		return (section_letter(section));
-	} else if ((type & N_TYPE) == N_PBUD)
+	else if ((type & N_TYPE) == N_PBUD)
 		return ('U');
 	return ('?');
 }
@@ -45,7 +45,7 @@ void	*get_section(t_lst *lst, size_t nbr)
 {
 	size_t		i;
 	t_sect		*sect;
-	
+
 	i = 0;
 	if (lst == NULL)
 		return (NULL);

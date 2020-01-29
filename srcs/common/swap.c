@@ -12,7 +12,7 @@
 
 #include "common.h"
 
-struct mach_header			*swap_mh(struct mach_header *mh, int swap)
+struct mach_header		*swap_mh(struct mach_header *mh, int swap)
 {
 	if (!swap)
 		return (mh);
@@ -22,7 +22,7 @@ struct mach_header			*swap_mh(struct mach_header *mh, int swap)
 	return (mh);
 }
 
-struct mach_header_64		*swap_mh64(struct mach_header_64 *mh, int swap)
+struct mach_header_64	*swap_mh64(struct mach_header_64 *mh, int swap)
 {
 	if (!swap)
 		return (mh);
@@ -32,7 +32,8 @@ struct mach_header_64		*swap_mh64(struct mach_header_64 *mh, int swap)
 	return (mh);
 }
 
-struct symtab_command	*swap_symtab_cmd(struct symtab_command *sc, int swap) {
+struct symtab_command	*swap_symtab_cmd(struct symtab_command *sc, int swap)
+{
 	if (!swap)
 		return (sc);
 	sc->cmd = swp_int(sc->cmd);
@@ -61,4 +62,3 @@ struct nlist_64			swap_nlist64(struct nlist_64 symbol, int swap)
 	symbol.n_un.n_strx = swp_int(symbol.n_un.n_strx);
 	return (symbol);
 }
-

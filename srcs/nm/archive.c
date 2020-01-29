@@ -12,6 +12,21 @@
 
 #include "nm.h"
 
+int		archive(t_ofile *ofile, t_ofile *ar, struct ar_hdr *header, int flags)
+{
+	if ((ar->swap = is_32(ar->ptr)) != -1)
+	{
+		print_ar_name(ofile->name, header);
+		handle_32(ar, flags);
+	}
+	else if ((ar->swap = is_64(ar->ptr)) != -1)
+	{
+		print_ar_name(ofile->name, header);
+		handle_64(ar, flags);
+	}
+	return (0);
+}
+
 int		handle_archive(t_ofile *ofile, int flags)
 {
 	t_ofile			*oar;
@@ -25,16 +40,11 @@ int		handle_archive(t_ofile *ofile, int flags)
 	while (!is_overflow(hdr, oar->size))
 	{
 		hdr = (void*)hdr + sizeof(struct ar_hdr) + ft_atoi(hdr->ar_size);
-		oar->ptr = (void*)hdr + sizeof(struct ar_hdr) + ft_atoi(hdr->ar_name + 3);
-		if ((oar->swap = is_32(oar->ptr)) != -1)
-		{
-			print_ar_name(ofile->name, hdr);
-			handle_32(oar, flags);
-		} else if ((oar->swap = is_64(oar->ptr)) != -1)
-		{
-			print_ar_name(ofile->name, hdr);
-			handle_64(oar, flags);
-		}
+		oar->ptr = (void*)hdr
+		+ sizeof(struct ar_hdr) + ft_atoi(hdr->ar_name + 3);
+		if (is_overflow(hdr, oar->size))
+			return (1);
+		archive(ofile, oar, hdr, flags);
 	}
 	free(oar);
 	return (0);

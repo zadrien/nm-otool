@@ -15,7 +15,7 @@
 t_ofile	*init(void)
 {
 	t_ofile		*ofile;
-	
+
 	if (!(ofile = (t_ofile*)malloc(sizeof(t_ofile))))
 		return (NULL);
 	ofile->name = NULL;
@@ -25,18 +25,10 @@ t_ofile	*init(void)
 	return (ofile);
 }
 
-void	print_ofile(t_ofile *ofile) {
-	printf("-----------OFILE------------\n");
-	printf("name: %s\n", ofile->name);
-	printf("start map: %p\n", ofile->ptr);
-	printf("swap: %d\n", ofile->swap);
-	printf("size: %p\n", ofile->size);
-}
-
 int		stat_file(int fd, t_ofile *ofile, int flags, int (*f)(t_ofile*, int))
 {
 	int			ret;
-	void		*ptr;	
+	void		*ptr;
 	struct stat	buf;
 
 	ret = 1;
@@ -47,16 +39,15 @@ int		stat_file(int fd, t_ofile *ofile, int flags, int (*f)(t_ofile*, int))
 			file_unvalid(ofile->name,
 						"The file was not recognized as a valid object file.");
 		else if ((ptr = mmap(0, buf.st_size, PROT_READ | PROT_WRITE,
-							 MAP_PRIVATE, fd, 0)) != MAP_FAILED)
+							MAP_PRIVATE, fd, 0)) != MAP_FAILED)
 		{
 			ofile->ptr = ptr;
 			ofile->size = (void*)ptr + buf.st_size;
-			if (DEBUG & flags)
-				print_ofile(ofile);
 			ret = f(ofile, flags);
 			if (munmap(ptr, buf.st_size) < 0)
 				exit(EXIT_FAILURE);
-		} else
+		}
+		else
 			file_unvalid(ofile->name,
 						"The file was not recognized as a valid object file.");
 	}

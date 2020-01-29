@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/03 20:05:29 by zadrien           #+#    #+#              #
-#    Updated: 2019/11/21 15:08:22 by zadrien          ###   ########.fr        #
+#    Updated: 2020/01/29 17:55:55 by zadrien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ SRC =	ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
 		ft_lstnew.c ft_lstdelone.c ft_lstdel.c ft_lstadd.c ft_lstiter.c	\
 		ft_lstmap.c ft_putnbroct.c get_next_line.c ft_errormsg.c ft_split.c	\
 		ft_putendn.c count_tab.c find_node.c	\
-		parser.c free_token.c new_env.c add_env.c\
+		free_token.c new_env.c add_env.c\
 		ft_countarg.c ft_strndup.c ft_freetab.c print_msg.c \
 		ft_hex.c ft_puthex.c\
 

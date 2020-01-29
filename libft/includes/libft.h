@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 15:32:31 by zadrien           #+#    #+#             */
-/*   Updated: 2019/11/21 20:24:30 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/01/29 18:57:36 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,17 @@
 # include <sys/ioctl.h>
 # define BUFF_SIZE 10
 
+/*
+** COLORS
+*/
+# define RED		"\x1b[31m"
+# define GREEN		"\x1b[32m"
+# define YELLOW		"\x1b[33m"
+# define BLUE		"\x1b[34m"
+# define MAGENTA	"\x1b[35m"
+# define CYAN		"\x1b[36m"
+# define RESET		"\x1b[0m"
+
 typedef struct		s_list
 {
 	void			*content;
@@ -37,10 +48,9 @@ typedef struct		s_env
 	struct s_env	*next;
 }					t_env;
 
-t_env   			*new_env(char **env);
-int     			add_env(t_env **env, char **var);
+t_env				*new_env(char **env);
+int					add_env(t_env **env, char **var);
 t_env				*find_node(t_env **env, char *var, char *value);
-
 
 typedef struct		s_token
 {
@@ -52,7 +62,7 @@ typedef struct		s_token
 typedef	struct		s_key
 {
 	int				key;
-	void			(*f)(t_token** ,char**, char*, int*);
+	void			(*f)(t_token**, char**, char*, int*);
 }					t_key;
 
 t_list				*ft_lstnew(void const *content, size_t content_size);
@@ -125,19 +135,8 @@ t_token				*parser(char *aastr);
 void				init_token(t_token **tok);
 void				free_token(t_token **token);
 int					ft_countarg(t_token **lst);
-char			    *ft_strndup(char *str, size_t len);
+char				*ft_strndup(char *str, size_t len);
 void				ft_freetab(char **trash);
 char				*ft_hex(long int v, size_t len);
 void				ft_puthex(unsigned long long hex, int pad, int up);
-/**
- * COLORS
- */
-# define RED		"\x1b[31m"
-# define GREEN		"\x1b[32m"
-# define YELLOW		"\x1b[33m"
-# define BLUE		"\x1b[34m"
-# define MAGENTA	"\x1b[35m"
-# define CYAN		"\x1b[36m"
-# define RESET		"\x1b[0m"
-
 #endif

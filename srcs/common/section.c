@@ -12,16 +12,19 @@
 
 #include "common.h"
 
-t_lst	*init_sectlst() {
+t_lst	*init_sectlst(void)
+{
 	t_lst	*lst;
+
 	if (!(lst = (t_lst*)malloc(sizeof(t_lst))))
-		return NULL;
+		return (NULL);
 	lst->nbr = 0;
 	lst->ptr = NULL;
-	return lst;
+	return (lst);
 }
 
-void	free_section(t_lst **lst) {
+void	free_section(t_lst **lst)
+{
 	if (*lst == NULL)
 		return ;
 	free((*lst)->ptr);

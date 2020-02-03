@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 16:35:37 by zadrien           #+#    #+#             */
-/*   Updated: 2020/01/27 15:54:02 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/02/03 17:45:51 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,12 @@ t_lst	*init_sectlst(void)
 
 void	free_section(t_lst **lst)
 {
-	if (*lst == NULL)
+	t_lst	*tmp;
+
+	if (!(*lst))
 		return ;
-	free((*lst)->ptr);
-	free(*lst);
+	tmp = *lst;
+	if (tmp->nbr > 0)
+		free(tmp->ptr);
+	free(tmp);
 }

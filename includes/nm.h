@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/05 10:38:21 by zadrien           #+#    #+#             */
-/*   Updated: 2020/01/29 19:24:17 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/02/03 14:58:11 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,22 @@
 # include "common.h"
 
 /*
-** A - all symbol entries flags
-** G - only global (external) symbols
+** A - all symbol entries flags (OK)
+** G - only global (external) symbols (NOPE)
 ** M - diplay string representation
 ** P - display in symbol-table order (OK)
-** U_ONLY - display only undefined symbol (OK)
+** U_ONLY (u)- display only undefined symbol (OK)
 ** U - dont display undefined symbol (OK)
 ** N - Sorted numericaly (OK)
 */
-# define A 0x1
-# define G 0x2
-# define M 0x3
-# define P 0x4
-# define U_ONLY 0x5
-# define U 0x6
-# define N 0x7
+
+# define A 1
+# define G 2
+# define M 4
+# define P 8
+# define U_ONLY 16
+# define U 32
+# define N 64
 # define STR_EXT "external"
 # define STR_N_EXT "non-external"
 # define STR_LIBSYS " (from libSystem)"
@@ -69,9 +70,9 @@ typedef struct		s_stab {
 	char			*str;
 }					t_stab;
 
-void				symtab_64(t_ofile *ofile, struct symtab_command *symtab,
+int					symtab_64(t_ofile *ofile, struct symtab_command *symtab,
 													t_lst *sects, int flags);
-void				symtab_32(t_ofile *ofile, struct symtab_command *symtab,
+int					symtab_32(t_ofile *ofile, struct symtab_command *symtab,
 													t_lst *sects, int flags);
 char				*ft_type(unsigned int value);
 
@@ -102,9 +103,9 @@ t_symbol			*new_symbol(struct nlist symbol,
 												t_lst *sections, char *name);
 t_symbol			*new_symbol64(t_ofile *ofile, struct nlist_64 symbol,
 												t_lst *sections, char *name);
-void				free_symbol(t_symbol **lst);
+void				*free_symbol(t_symbol **lst);
 void				*new_elem(t_symbol **lst, t_symbol *el, int flags);
-void				print_symbols(t_symbol *lst, int flags);
+int					print_symbols(t_symbol **lst, int flags);
 void				print(t_symbol *el);
 void			    print_value(t_symbol *s);
 void				pad(char *str);

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 17:46:41 by zadrien           #+#    #+#             */
-/*   Updated: 2020/01/29 17:45:56 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/02/03 19:01:13 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,17 +80,20 @@ void	print_text(t_symbol *el)
 	ft_putchar('\n');
 }
 
-void	print_symbols(t_symbol *lst, int flags)
+int		print_symbols(t_symbol **lst, int flags)
 {
 	t_symbol	*tmp;
+	void		(*f)(t_symbol*);
 
-	if (lst)
+	if (!(*lst))
+		return (1);
+	f = (flags & M) ? print_text : print;
+	tmp = *lst;
+	while (tmp)
 	{
-		tmp = lst;
-		while (tmp)
-		{
-			flags & M ? print_text(tmp) : print(tmp);
-			tmp = tmp->next;
-		}
+		f(tmp);
+		tmp = tmp->next;
 	}
+	free_symbol(lst);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:50:24 by zadrien           #+#    #+#             */
-/*   Updated: 2020/01/29 18:07:53 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/02/03 15:56:50 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@ void	ft_puthex(unsigned long long hex, int pad, int up)
 {
 	int		i;
 	int		r;
-	char	str[16];
+	char	str[17];
+	char	*s;
 
 	i = 16;
-	ft_memset(str, '0', 16);
+	ft_bzero(str, 17);
 	while (--i >= 0)
 	{
 		r = (int)(hex % (unsigned long long)16);
@@ -32,5 +33,6 @@ void	ft_puthex(unsigned long long hex, int pad, int up)
 				str[i] = (up ? 65 : 97) + (r % 10);
 		}
 	}
-	ft_putstr(str + (16 - pad));
+	s = str + (16 - pad);
+	ft_putstr(s);
 }

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 15:40:30 by zadrien           #+#    #+#             */
-/*   Updated: 2020/01/29 19:16:03 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/02/03 15:44:41 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,17 @@ int		archive(t_ofile *ar, struct ar_hdr *hdr, int flags)
 	if ((ar->swap = is_32(ar->ptr)) != -1)
 	{
 		print_ar_name(ar->name, hdr);
-		otool_32(ar, flags);
+		return (otool_32(ar, flags));
 	}
 	else if ((ar->swap = is_64(ar->ptr)) != -1)
 	{
 		print_ar_name(ar->name, hdr);
-		otool_64(ar, flags);
+		return (otool_64(ar, flags));
 	}
 	else if ((ar->swap = is_fat(ar->ptr)) != -1)
 	{
 		print_ar_name(ar->name, hdr);
-		otool_fat(ar, flags);
+		return (otool_fat(ar, flags));
 	}
 	return (1);
 }

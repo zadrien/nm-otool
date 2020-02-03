@@ -6,13 +6,20 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 08:44:22 by zadrien           #+#    #+#             */
-/*   Updated: 2020/01/29 19:02:21 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/02/03 19:00:49 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
 
-t_symbol	*new_symbol64(t_ofile *ofile, struct nlist_64 symbol, t_lst *sections, char *name)
+void *free_new(t_symbol **new)
+{
+	free(*new);
+	return (NULL);
+}
+
+t_symbol	*new_symbol64(t_ofile *ofile, struct nlist_64 symbol,
+												t_lst *sections, char *name)
 {
 	t_symbol *new;
 
@@ -29,11 +36,15 @@ t_symbol	*new_symbol64(t_ofile *ofile, struct nlist_64 symbol, t_lst *sections, 
 	new->type = get_type(symbol.n_type, symbol.n_value, new->section);
 	if (new->type == '-')
 	{
-		new->stab = ft_type(symbol.n_type);
+		printf("%u\n", symbol.n_type);
+		if(!(new->stab = ft_type(symbol.n_type)))
+			return free_new(&new);
 		new->sect = ft_hex(symbol.n_sect, 2);
 		new->desc = ft_hex(symbol.n_desc, 4);
 	}
 	new->ext = symbol.n_type & N_EXT;
+	if (is_overflow((void*)name, ofile->size))
+		return NULL;
 	new->name = ft_strndup(name, (size_t)(ofile->size - (void*)name));
 	new->next = NULL;
 	return (new);
@@ -46,6 +57,7 @@ t_symbol	*new_symbol(struct nlist symbol, t_lst *sections, char *name)
 	new = NULL;
 	if (!(new = (t_symbol*)malloc(sizeof(t_symbol))))
 		return (NULL);
+	new->next = NULL;
 	new->n_type = symbol.n_type;
 	new->n_desc = symbol.n_desc;
 	new->n_sect = symbol.n_sect;
@@ -56,17 +68,17 @@ t_symbol	*new_symbol(struct nlist symbol, t_lst *sections, char *name)
 	new->type = get_type(symbol.n_type, symbol.n_value, new->section);
 	if (new->type == '-')
 	{
-		new->stab = ft_type(symbol.n_type);
+		if(!(new->stab = ft_type(symbol.n_type)))
+			return free_symbol(&new);
 		new->sect = ft_hex(symbol.n_sect, 2);
 		new->desc = ft_hex(symbol.n_desc, 4);
 	}
 	new->ext = symbol.n_type & N_EXT;
 	new->name = ft_strdup(name);
-	new->next = NULL;
 	return (new);
 }
 
-void		free_symbol(t_symbol **lst)
+void	*free_symbol(t_symbol **lst)
 {
 	t_symbol	*tmp;
 	t_symbol	*p;
@@ -91,4 +103,5 @@ void		free_symbol(t_symbol **lst)
 		free(*lst);
 		lst = NULL;
 	}
+	return (NULL);
 }

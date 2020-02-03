@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/20 09:59:33 by zadrien           #+#    #+#             */
-/*   Updated: 2020/01/27 16:16:12 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/02/03 14:52:14 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ int		check_lc64(t_ofile *ofile, struct load_command *lc,
 {
 	if (lc->cmd == LC_SYMTAB)
 	{
-		symtab_64(ofile, (void*)lc, *lst, flags);
-		return (1);
+		if (symtab_64(ofile, (void*)lc, *lst, flags))
+			return (1);
 	}
 	else if (lc->cmd == LC_SEGMENT_64)
 	{
 		if (!save_sect64(ofile, lst, (void*)lc))
-			return (1);
+			return (-1);
 	}
 	return (0);
 }
@@ -43,7 +43,7 @@ int		handle_64(t_ofile *ofile, int flags)
 	lc = swap_load_cmd(ofile->ptr + sizeof(struct mach_header_64), ofile->swap);
 	while (i++ < header->ncmds)
 	{
-		if (check_lc64(ofile, lc, &lst, flags))
+		if ((ret = check_lc64(ofile, lc, &lst, flags)) == 1)
 			break ;
 		if ((ret = is_overflow((void*)lc + lc->cmdsize, ofile->size)))
 			break ;
@@ -105,10 +105,7 @@ int		nm(t_ofile *ofile, int flags)
 		return (1);
 	while (++i < 4)
 		if ((ofile->swap = arr[i].check(ofile->ptr)) >= 0)
-		{
-			arr[i].f(ofile, flags);
-			return (0);
-		}
+			return (arr[i].f(ofile, flags));
 	ft_putstr_fd("nm: ", 2);
 	ft_putstr_fd(ofile->name, 2);
 	ft_putendl_fd(": The file was not recognized as a valid object file.", 2);

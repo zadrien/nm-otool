@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 18:44:44 by zadrien           #+#    #+#             */
-/*   Updated: 2020/01/29 19:25:44 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/02/03 17:48:05 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ int		otool_64(t_ofile *ofile, int flags)
 		lc = swap_load_cmd((void*)lc + lc->cmdsize, ofile->swap);
 	}
 	if (!ret)
-		print_saved_section64(ofile, lst);
+		ret = print_saved_section64(ofile, &lst);
 	free_section(&lst);
-	return (0);
+	return (ret);
 }
 
 int		otool_32(t_ofile *ofile, int flags)
@@ -99,7 +99,7 @@ int		otool_32(t_ofile *ofile, int flags)
 		lc = swap_load_cmd((void*)lc + lc->cmdsize, ofile->swap);
 	}
 	if (!ret)
-		print_saved_section32(ofile, lst);
+		ret = print_saved_section32(ofile, &lst);
 	free_section(&lst);
-	return (0);
+	return (ret);
 }

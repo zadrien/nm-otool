@@ -6,14 +6,20 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/26 13:45:39 by zadrien           #+#    #+#             */
-/*   Updated: 2020/01/29 19:19:29 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/02/03 17:48:50 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "otool.h"
 
-void	content(char *seg, char *sect)
+void	content(t_ofile *ofile, char *seg, char *sect)
 {
+	if (!singleton(0))
+		{
+			ft_putstr(ofile->name);
+			ft_putendl(":");
+			singleton(1);
+		}
 	ft_putstr("Contents of (");
 	ft_putstr(seg);
 	ft_putchar(',');
@@ -65,7 +71,7 @@ void	print32(t_ofile *ofile, uint32_t addr, uint32_t offset, uint32_t size)
 		{
 			if (i > 0)
 				ft_putendl("");
-			ft_puthex((unsigned long long)addr, 8, 0);
+			ft_puthex((unsigned long)addr, 8, 0);
 			ft_putchar('\t');
 		}
 		ft_puthex((unsigned long long)(*str), 2, 0);
@@ -79,52 +85,50 @@ void	print32(t_ofile *ofile, uint32_t addr, uint32_t offset, uint32_t size)
 	ft_putchar('\n');
 }
 
-void	print_saved_section64(t_ofile *ofile, t_lst *lst)
+int		print_saved_section64(t_ofile *ofile, t_lst **lst)
 {
 	uint8_t				i;
 	t_section			*sect;
 	struct section_64	*s;
+	struct segment_command_64	*sg;
 
 	i = 0;
-	if (!lst)
-		return ;
-	sect = lst->ptr;
-	if (lst->nbr > 0)
-		if (!singleton(0))
-		{
-			ft_putstr(ofile->name);
-			ft_putendl(":");
-		}
-	while (i++ < lst->nbr)
+	if (!(*lst))
+		return (1);
+	sect = (*lst)->ptr;
+	while (i++ < (*lst)->nbr)
 	{
 		s = sect->ptr;
-		content(s->segname, s->sectname);
+		sg = sect->segment;
+		if (s->size > sg->vmsize)
+			return (1);
+		content(ofile, s->segname, s->sectname);
 		print64(ofile, (void*)s->addr, s->offset, s->size);
 		sect++;
 	}
+	return (0);
 }
 
-void	print_saved_section32(t_ofile *ofile, t_lst *lst)
+int		print_saved_section32(t_ofile *ofile, t_lst **lst)
 {
-	uint8_t			i;
-	t_section		*sect;
-	struct section	*s;
+	uint8_t					i;
+	t_section				*sect;
+	struct section			*s;
+	struct segment_command	*sg;
 
 	i = 0;
-	if (!lst)
-		return ;
-	sect = lst->ptr;
-	if (lst->nbr > 0)
-		if (!singleton(0))
-		{
-			ft_putstr(ofile->name);
-			ft_putendl(":");
-		}
-	while (i++ < lst->nbr)
+	if (!(*lst))
+		return (1);
+	sect = (*lst)->ptr;
+	while (i++ < (*lst)->nbr)
 	{
 		s = sect->ptr;
-		content(s->segname, s->sectname);
+		sg = sect->segment;
+		if (s->offset > sg->vmsize) 
+			return (1);
+		content(ofile, s->segname, s->sectname);
 		print32(ofile, s->addr, s->offset, s->size);
 		sect++;
 	}
+	return (0);
 }

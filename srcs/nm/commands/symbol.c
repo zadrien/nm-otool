@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 08:44:22 by zadrien           #+#    #+#             */
-/*   Updated: 2020/02/03 19:00:49 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/02/07 18:35:57 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_symbol	*new_symbol64(t_ofile *ofile, struct nlist_64 symbol,
 	new->type = get_type(symbol.n_type, symbol.n_value, new->section);
 	if (new->type == '-')
 	{
-		printf("%u\n", symbol.n_type);
+//		printf("%u\n", symbol.n_type); // pprinnf
 		if(!(new->stab = ft_type(symbol.n_type)))
 			return free_new(&new);
 		new->sect = ft_hex(symbol.n_sect, 2);
@@ -49,7 +49,17 @@ t_symbol	*new_symbol64(t_ofile *ofile, struct nlist_64 symbol,
 	new->next = NULL;
 	return (new);
 }
-
+t_symbol	*let_see(t_ofile *ofile, struct nlist_64 symbol, t_lst *sections, void *offset)
+{
+	t_symbol *new;
+	if (!(new = new_symbol64(ofile, symbol, sections, offset + symbol.n_un.n_strx)))
+		return (NULL);
+	// if (check_symbol(symbol.n_type, flags))
+	// {
+	// 	free_section(&new);
+	// }
+	return (new);
+}
 t_symbol	*new_symbol(struct nlist symbol, t_lst *sections, char *name)
 {
 	t_symbol	*new;
@@ -97,10 +107,8 @@ void	*free_symbol(t_symbol **lst)
 			}
 			free(p->name);
 			free(p->value);
-			if (p != *lst)
-				free(p);
+			free(p);
 		}
-		free(*lst);
 		lst = NULL;
 	}
 	return (NULL);

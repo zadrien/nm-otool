@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/05 10:38:21 by zadrien           #+#    #+#             */
-/*   Updated: 2020/02/03 14:58:11 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/02/07 18:33:58 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,4 +109,5 @@ int					print_symbols(t_symbol **lst, int flags);
 void				print(t_symbol *el);
 void			    print_value(t_symbol *s);
 void				pad(char *str);
+t_symbol			*let_see(t_ofile *ofile, struct nlist_64 symbol, t_lst *sections, void *offset);
 #endif

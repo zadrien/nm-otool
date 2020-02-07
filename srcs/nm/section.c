@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 11:46:03 by zadrien           #+#    #+#             */
-/*   Updated: 2020/01/27 16:14:54 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/02/07 16:27:18 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ t_lst	*save_sect64(t_ofile *ofile, t_lst **lst, void *ptr)
 	{
 		display_error(ofile->name,
 					"The file was not recognized as a valid object file.");
+		free(new);
 		return (NULL);
 	}
 	return (*lst);
@@ -107,6 +108,7 @@ t_lst	*save_sect32(t_ofile *ofile, t_lst **lst, void *lc)
 	{
 		display_error(ofile->name,
 					"The file was not recognized as a valid object file.");
+		free(new);
 		return (NULL);
 	}
 	return (*lst);

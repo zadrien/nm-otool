@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/01 11:47:26 by zadrien           #+#    #+#             */
-/*   Updated: 2020/02/03 11:03:25 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/02/07 14:18:23 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,11 @@ int		archive(t_ofile *ofile, t_ofile *ar, struct ar_hdr *header, int flags)
 
 int		handle_archive(t_ofile *ofile, int flags)
 {
+	int				ret;
 	t_ofile			*oar;
 	struct ar_hdr	*hdr;
 
+	ret = 0;
 	if (!(oar = init()))
 		return (1);
 	oar->name = ofile->name;
@@ -45,9 +47,9 @@ int		handle_archive(t_ofile *ofile, int flags)
 		oar->ptr = (void*)hdr
 		+ sizeof(struct ar_hdr) + ft_atoi(hdr->ar_name + 3);
 		if (is_overflow(hdr, oar->size))
-			return (1);
+			break ;
 		archive(ofile, oar, hdr, flags);
 	}
 	free(oar);
-	return (0);
+	return (ret);
 }

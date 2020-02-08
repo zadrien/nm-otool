@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/05 10:38:21 by zadrien           #+#    #+#             */
-/*   Updated: 2020/02/07 18:33:58 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/02/08 15:03:50 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,11 +103,18 @@ t_symbol			*new_symbol(struct nlist symbol,
 												t_lst *sections, char *name);
 t_symbol			*new_symbol64(t_ofile *ofile, struct nlist_64 symbol,
 												t_lst *sections, char *name);
-void				*free_symbol(t_symbol **lst);
+t_symbol			*init_symb(void);												
+void				*free_symbol_lst(t_symbol **lst);
+void				free_symbol(t_symbol **lst);
+int     			clear_lst(t_symbol **lst, int ret);
 void				*new_elem(t_symbol **lst, t_symbol *el, int flags);
+int					check_symbol(uint8_t type, int flags);
 int					print_symbols(t_symbol **lst, int flags);
 void				print(t_symbol *el);
 void			    print_value(t_symbol *s);
 void				pad(char *str);
-t_symbol			*let_see(t_ofile *ofile, struct nlist_64 symbol, t_lst *sections, void *offset);
+t_symbol			*verify_integrity32(struct nlist symbol,
+												t_lst *sections, void *offset);
+t_symbol			*verify_integrity64(t_ofile *ofile, struct nlist_64 symbol,
+												t_lst *sections, void *offset);												
 #endif

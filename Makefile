@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/11 16:22:07 by zadrien           #+#    #+#              #
-#    Updated: 2020/02/03 10:48:56 by zadrien          ###   ########.fr        #
+#    Updated: 2020/02/08 13:04:25 by zadrien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ COMMON_FILES= 	common/flags.c common/check_file.c common/map_file.c \
 
 NM_FILES= 	nm/main.c nm/nm.c nm/section.c nm/section_utils.c nm/archive.c \
 			nm/fat.c nm/print.c nm/commands/symtab.c  nm/commands/stabs.c \
-			nm/commands/symbol.c nm/commands/sort.c nm/print_utils.c \
+			nm/commands/symbol.c nm/commands/sort.c nm/print_utils.c nm/commands/symbol_utils.c \
 
 OTOOL_FILES= otool/main.c otool/otool.c otool/section.c otool/section_utils.c \
 			otool/print.c otool/utils.c otool/otool_ar.c \

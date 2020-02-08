@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/20 09:59:33 by zadrien           #+#    #+#             */
-/*   Updated: 2020/02/03 14:52:14 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/02/08 14:06:07 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ int		check_lc64(t_ofile *ofile, struct load_command *lc,
 {
 	if (lc->cmd == LC_SYMTAB)
 	{
-		if (symtab_64(ofile, (void*)lc, *lst, flags))
+		if (symtab_64(ofile, (void*)lc, *lst, flags)) {
+			ft_putendl("K");
 			return (1);
+		}
 	}
 	else if (lc->cmd == LC_SEGMENT_64)
 	{

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 16:14:34 by zadrien           #+#    #+#             */
-/*   Updated: 2020/01/29 18:01:58 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/02/08 14:56:30 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_strndup(char *str, size_t len)
 	char	*line;
 
 	line = NULL;
+	if ((int)len < 0)
+		return (NULL);
 	if (str)
 	{
 		i = 0;

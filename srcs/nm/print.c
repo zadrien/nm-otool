@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 17:46:41 by zadrien           #+#    #+#             */
-/*   Updated: 2020/02/03 19:01:13 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/02/08 13:56:23 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,6 @@ int		print_symbols(t_symbol **lst, int flags)
 		f(tmp);
 		tmp = tmp->next;
 	}
-	free_symbol(lst);
+	free_symbol_lst(lst);
 	return (0);
 }

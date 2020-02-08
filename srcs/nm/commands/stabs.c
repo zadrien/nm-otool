@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 20:05:05 by zadrien           #+#    #+#             */
-/*   Updated: 2020/01/27 16:26:34 by zadrien          ###   ########.fr       */
+/*   Updated: 2020/02/08 15:46:01 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*ft_type(unsigned int value)
 {
 	int						i;
-	static const	t_stab	type[29] = { {N_GSYM, "GSYM"}, {N_FNAME, "FNAME"},
+	static const t_stab		type[29] = { {N_GSYM, "GSYM"}, {N_FNAME, "FNAME"},
 {N_FUN, "FUN"}, {N_STSYM, "STSYM"}, {N_LCSYM, "LCSYM"}, {N_BNSYM, "BNSYM"},
 {N_OPT, "OPT"}, {N_RSYM, "RSYM"}, {N_SLINE, "SLINE"}, {N_ENSYM, "ENSYM"},
 {N_SSYM, "SSYM"}, {N_SO, "SO"}, {N_OSO, "OSO"}, {N_LSYM, "LSYM"},
@@ -26,8 +26,11 @@ char	*ft_type(unsigned int value)
 {N_ECOML, "ECOML"}, {N_LENG, "LENG"}};
 
 	i = 0;
-	while (i++ < 29)
-		if (!(value ^ type[i].type))
+	while (i < 29)
+	{
+		if (value == type[i].type)
 			return (type[i].str);
+		i++;
+	}
 	return (NULL);
 }
